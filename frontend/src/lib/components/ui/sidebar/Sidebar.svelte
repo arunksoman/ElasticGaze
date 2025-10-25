@@ -13,11 +13,11 @@
   let hoverTimeout: NodeJS.Timeout | null = null;
 
   const menuItems = [
-    { icon: Home({ theme: 'outline', size: 16 }), name: 'Home', url: '/' },
-    { icon: Setting({ theme: 'outline', size: 16 }), name: 'Settings', url: '/settings' },
+    { icon: Home({ theme: 'outline', size: 24 }), name: 'Home', url: '/' },
+    { icon: Setting({ theme: 'outline', size: 24 }), name: 'Settings', url: '/settings' },
   ];
   const footerItems = [
-    { icon: Setting({ theme: 'outline', size: 16 }), name: 'About', url: '/about' },
+    { icon: Setting({ theme: 'outline', size: 24 }), name: 'About', url: '/about' },
   ];
 
   function handleBrandClick() {

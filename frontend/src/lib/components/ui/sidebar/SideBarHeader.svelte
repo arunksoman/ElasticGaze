@@ -1,7 +1,7 @@
 <script lang="ts">
   export let expanded: boolean;
   export let onBrandClick: () => void;
-  import { Home } from '@icon-park/svg'; // Replace with your brand icon if available
+//   import eg_logo from '/icons/eg_icon1.svg';
 </script>
 
 <button
@@ -11,7 +11,9 @@
   tabindex="0"
   on:click={onBrandClick}
 >
-  <span class="w-8 h-8 flex items-center justify-center">{@html Home({ theme: 'outline', size: 32 })}</span>
+  <span class="w-8 h-8 flex items-center justify-center">
+    <img src="/icons/eg_icon1.svg" alt="ElasticGaze Logo" class="w-6 h-6"/>
+  </span>
   {#if expanded}
     <span class="text-lg font-bold text-[var(--color-base-content)]">ElasticGaze</span>
   {/if}
