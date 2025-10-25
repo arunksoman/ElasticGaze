@@ -1,0 +1,37 @@
+<script lang="ts">
+  export let icon: any;
+  export let name: string;
+  export let url: string;
+  export let expanded: boolean;
+  export let active: boolean;
+  import { goto } from '$app/navigation';
+  
+  let hovered = false;
+
+  function handleClick() {
+    if (url) goto(url);
+  }
+</script>
+
+<button
+  class="relative flex items-center gap-2 px-4 py-2 cursor-pointer group w-full text-left focus:outline-none focus-visible:ring hover:bg-[var(--color-base-300)]"
+  aria-current={active ? 'page' : undefined}
+  aria-label={name}
+  tabindex="0"
+  on:click={handleClick}
+  on:mouseenter={() => hovered = true}
+  on:mouseleave={() => hovered = false}
+>
+  <span class="w-6 h-6 flex items-center justify-center">
+    {@html icon}
+    {#if hovered && !expanded}
+      <span class="absolute left-full ml-2 px-2 py-1 rounded bg-[var(--color-base-300)] text-xs text-[var(--color-base-content)] shadow-lg z-50">{name}</span>
+    {/if}
+  </span>
+  {#if expanded}
+    <span class="text-base text-[var(--color-base-content)]">{name}</span>
+  {/if}
+  {#if active}
+    <span class="absolute left-0 top-0 h-full w-[3px] bg-[var(--color-primary)] rounded-r"></span>
+  {/if}
+</button>

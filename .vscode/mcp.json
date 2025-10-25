@@ -1,0 +1,21 @@
+{
+	"servers": {
+		"svelte-mcp-server": {
+			"type": "stdio",
+			"command": "pnpm",
+			"args": [
+				"dlx",
+				"@sveltejs/mcp"
+			]
+		},
+		"ark-ui-mcp-server": {
+			"type": "stdio",
+			"command": "pnpm",
+			"args": [
+				"dlx",
+				"@ark-ui/mcp"
+			]
+		}
+	},
+	"inputs": []
+}
