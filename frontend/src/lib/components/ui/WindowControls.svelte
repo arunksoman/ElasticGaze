@@ -40,7 +40,7 @@ async function handleClose() {
     class="w-8 h-[28px] flex items-center justify-center cursor-pointer transition-colors duration-200 hover:bg-[var(--color-base-200)]"
     style="--wails-draggable:no-drag;"
     aria-label="Minimize"
-    on:click={handleMinimize}
+    onclick={handleMinimize}
   >
     <span class="w-5 h-5 flex items-center justify-center">
   {@html Minus({ theme: 'outline', size: 16, fill: 'var(--color-base-content)' })}
@@ -51,7 +51,7 @@ async function handleClose() {
       class="w-8 h-[28px] flex items-center justify-center cursor-pointer transition-colors duration-200 hover:bg-[var(--color-base-200)]"
       style="--wails-draggable:no-drag;"
       aria-label="Restore"
-      on:click={handleRestore}
+      onclick={handleRestore}
     >
       <span class="w-5 h-5 flex items-center justify-center">
   {@html CollapseTextInput({ theme: 'outline', size: 12, fill: 'var(--color-base-content)' })}
@@ -62,7 +62,7 @@ async function handleClose() {
       class="w-8 h-[28px] flex items-center justify-center cursor-pointer transition-colors duration-200 hover:bg-[var(--color-base-200)]"
       style="--wails-draggable:no-drag;"
       aria-label="Maximize"
-      on:click={handleMaximize}
+      onclick={handleMaximize}
     >
       <span class="w-5 h-5 flex items-center justify-center">
   {@html ExpandTextInput({ theme: 'outline', size: 12, fill: 'var(--color-base-content)' })}
@@ -73,9 +73,9 @@ async function handleClose() {
     class="w-8 h-[28px] flex items-center justify-center cursor-pointer transition-colors duration-200 hover:bg-[var(--color-base-200)]"
     style="--wails-draggable:no-drag;"
     aria-label="Close"
-    on:click={handleClose}
-    on:mouseenter={() => closeHover = true}
-    on:mouseleave={() => closeHover = false}
+    onclick={handleClose}
+    onmouseenter={() => closeHover = true}
+    onmouseleave={() => closeHover = false}
   >
     <span class="w-5 h-5 flex items-center justify-center">
   {@html Close({ theme: 'outline', size: 12, fill: closeHover ? '#e53935' : 'var(--color-base-content)' })}

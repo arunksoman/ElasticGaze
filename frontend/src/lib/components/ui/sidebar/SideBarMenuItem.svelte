@@ -18,9 +18,9 @@
   aria-current={active ? 'page' : undefined}
   aria-label={name}
   tabindex="0"
-  on:click={handleClick}
-  on:mouseenter={() => hovered = true}
-  on:mouseleave={() => hovered = false}
+  onclick={handleClick}
+  onmouseenter={() => hovered = true}
+  onmouseleave={() => hovered = false}
 >
   <span class="w-8 h-8 flex items-center justify-center">
     {@html icon}

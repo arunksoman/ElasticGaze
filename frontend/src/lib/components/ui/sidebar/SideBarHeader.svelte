@@ -9,7 +9,7 @@
   aria-label={expanded ? 'Collapse sidebar' : 'Expand sidebar'}
   aria-expanded={expanded}
   tabindex="0"
-  on:click={onBrandClick}
+  onclick={onBrandClick}
 >
   <span class="w-8 h-8 flex items-center justify-center">
     <img src="/icons/eg_icon1.svg" alt="ElasticGaze Logo" class="w-6 h-6"/>

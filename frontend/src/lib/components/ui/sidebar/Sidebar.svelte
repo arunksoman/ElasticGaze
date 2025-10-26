@@ -11,13 +11,15 @@
   const dispatch = createEventDispatcher();
   let keepOpen = false;
   let hoverTimeout: NodeJS.Timeout | null = null;
+  let sidebar_icon_theme: 'outline' | 'filled' = 'outline';
+  let sidebar_icon_size = 24;
 
   const menuItems = [
-    { icon: Home({ theme: 'outline', size: 24 }), name: 'Home', url: '/' },
-    { icon: Setting({ theme: 'outline', size: 24 }), name: 'Settings', url: '/settings' },
+    { icon: Home({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'Home', url: '/' },
+    { icon: Setting({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'Settings', url: '/settings' },
   ];
   const footerItems = [
-    { icon: Setting({ theme: 'outline', size: 24 }), name: 'About', url: '/about' },
+    { icon: Setting({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'About', url: '/about' },
   ];
 
   function handleBrandClick() {

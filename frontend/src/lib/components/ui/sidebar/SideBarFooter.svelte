@@ -9,7 +9,7 @@
     {#if item.url}
       <button
         class="flex items-center gap-2 cursor-pointer w-full text-left focus:outline-none focus-visible:ring"
-        on:click={() => { if (item.url) goto(item.url); }}
+        onclick={() => { if (item.url) goto(item.url); }}
         aria-label={item.name}
         tabindex="0"
       >
