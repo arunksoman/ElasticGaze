@@ -15,6 +15,6 @@
     <img src="/icons/eg_icon1.svg" alt="ElasticGaze Logo" class="w-6 h-6"/>
   </span>
   {#if expanded}
-    <span class="text-lg font-bold text-[var(--color-base-content)]">ElasticGaze</span>
+    <span class="text-lg font-bold text-(--color-base-content)">ElasticGaze</span>
   {/if}
 </button>

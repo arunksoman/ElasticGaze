@@ -12,7 +12,8 @@
     Server,
     ApiApp,
     DatabasePoint,
-    DatabaseDownload 
+    DatabaseDownload,
+    Info
   } from '@icon-park/svg';
   import { page } from '$app/stores';
   let expanded = false;
@@ -21,7 +22,7 @@
   let keepOpen = false;
   let hoverTimeout: NodeJS.Timeout | null = null;
   let sidebar_icon_theme: 'outline' | 'filled' = 'outline';
-  let sidebar_icon_size = 24;
+  let sidebar_icon_size = 20;
 
   const menuItems = [
     { icon: Home({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'Home', url: '/' },
@@ -31,6 +32,7 @@
     { icon: Search({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'Search', url: '/search' },
     { icon: ApiApp({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'APIs', url: '/rest' },
     { icon: DatabaseDownload({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'Snapshots', url: '/snapshots' },
+    { icon: Info({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'Info', url: '/about' }
   ];
   const footerItems = [
     { icon: Setting({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'About', url: '/about' },
@@ -62,7 +64,7 @@
 </script>
 
 <aside
-  class="fixed left-0 top-0 z-30 h-screen flex flex-col justify-between bg-[var(--color-base-200)] transition-all duration-300"
+  class="fixed left-0 top-0 z-30 h-screen flex flex-col justify-between bg-(--color-base-200) transition-all duration-300"
   style="width: {expanded ? '220px' : '56px'};"
   on:mouseenter={handleMouseEnter}
   on:mouseleave={handleMouseLeave}

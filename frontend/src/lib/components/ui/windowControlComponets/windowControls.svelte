@@ -33,11 +33,11 @@ async function handleClose() {
 
 
 <div
-  class="flex items-center justify-end h-[28px] w-full select-none bg-[var(--color-base-100)] text-[var(--color-base-content)]"
+  class="flex items-center justify-end h-7 w-full select-none bg-(--color-base-100) text-(--color-base-content)"
   style="--wails-draggable:drag;"
 >
   <button
-    class="w-8 h-[28px] flex items-center justify-center cursor-pointer transition-colors duration-200 hover:bg-[var(--color-base-200)]"
+    class="w-8 h-7 flex items-center justify-center cursor-pointer transition-colors duration-200 hover:bg-(--color-base-200)"
     style="--wails-draggable:no-drag;"
     aria-label="Minimize"
     onclick={handleMinimize}
@@ -48,7 +48,7 @@ async function handleClose() {
   </button>
   {#if $isMaximized}
     <button
-      class="w-8 h-[28px] flex items-center justify-center cursor-pointer transition-colors duration-200 hover:bg-[var(--color-base-200)]"
+      class="w-8 h-7 flex items-center justify-center cursor-pointer transition-colors duration-200 hover:bg-(--color-base-200)"
       style="--wails-draggable:no-drag;"
       aria-label="Restore"
       onclick={handleRestore}
@@ -59,7 +59,7 @@ async function handleClose() {
     </button>
   {:else}
     <button
-      class="w-8 h-[28px] flex items-center justify-center cursor-pointer transition-colors duration-200 hover:bg-[var(--color-base-200)]"
+      class="w-8 h-7 flex items-center justify-center cursor-pointer transition-colors duration-200 hover:bg-(--color-base-200)"
       style="--wails-draggable:no-drag;"
       aria-label="Maximize"
       onclick={handleMaximize}
@@ -70,7 +70,7 @@ async function handleClose() {
     </button>
   {/if}
   <button
-    class="w-8 h-[28px] flex items-center justify-center cursor-pointer transition-colors duration-200 hover:bg-[var(--color-base-200)]"
+    class="w-8 h-7 flex items-center justify-center cursor-pointer transition-colors duration-200 hover:bg-(--color-base-200)"
     style="--wails-draggable:no-drag;"
     aria-label="Close"
     onclick={handleClose}

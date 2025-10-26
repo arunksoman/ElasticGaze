@@ -15,14 +15,14 @@
       >
         <span class="w-6 h-6 flex items-center justify-center">{@html item.icon}</span>
         {#if expanded}
-          <span class="text-base text-[var(--color-base-content)]">{item.name}</span>
+          <span class="text-base text-(--color-base-content)">{item.name}</span>
         {/if}
       </button>
     {:else}
       <div class="flex items-center gap-2">
         <span class="w-6 h-6 flex items-center justify-center">{@html item.icon}</span>
         {#if expanded}
-          <span class="text-base text-[var(--color-base-content)]">{item.name}</span>
+          <span class="text-base text-(--color-base-content)">{item.name}</span>
         {/if}
       </div>
     {/if}
