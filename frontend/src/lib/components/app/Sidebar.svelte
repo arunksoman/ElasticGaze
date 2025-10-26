@@ -1,9 +1,9 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { sidebarExpanded } from '$lib/stores/sidebar';
-  import SideBarHeader from './SideBarHeader.svelte';
-  import SideBarMenuItem from './SideBarMenuItem.svelte';
-  import SideBarFooter from './SideBarFooter.svelte';
+  import SideBarHeader from '$lib/components/ui/sideBarComponents/SideBarHeader.svelte';
+  import SideBarMenuItem from '$lib/components/ui/sideBarComponents/SideBarMenuItem.svelte';
+  import SideBarFooter from '$lib/components/ui/sideBarComponents/SideBarFooter.svelte';
   import { 
     Home,
     Connect,

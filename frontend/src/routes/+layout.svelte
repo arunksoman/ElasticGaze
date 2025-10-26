@@ -1,8 +1,8 @@
 <script lang="ts">
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
-	import WindowControls from '$lib/components/ui/WindowControls.svelte';
-	import Sidebar from '$lib/components/ui/sidebar/Sidebar.svelte';
+	import WindowControls from '$lib/components/ui/windowControlComponets/windowControls.svelte';
+	import Sidebar from '$lib/components/app/Sidebar.svelte';
 	import { sidebarExpanded } from '$lib/stores/sidebar';
 
 	let { children } = $props();
