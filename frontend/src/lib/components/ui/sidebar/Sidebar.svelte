@@ -4,7 +4,16 @@
   import SideBarHeader from './SideBarHeader.svelte';
   import SideBarMenuItem from './SideBarMenuItem.svelte';
   import SideBarFooter from './SideBarFooter.svelte';
-  import { Home, Setting } from '@icon-park/svg';
+  import { 
+    Home,
+    Connect,
+    Setting, 
+    Search,
+    Server,
+    ApiApp,
+    DatabasePoint,
+    DatabaseDownload 
+  } from '@icon-park/svg';
   import { page } from '$app/stores';
   let expanded = false;
   $: expanded = $sidebarExpanded;
@@ -16,7 +25,12 @@
 
   const menuItems = [
     { icon: Home({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'Home', url: '/' },
-    { icon: Setting({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'Settings', url: '/settings' },
+    { icon: Connect({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'Nodes', url: '/nodes' },
+    { icon: Server({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'Shards', url: '/shards' },
+    { icon: DatabasePoint({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'Indices', url: '/indices' },
+    { icon: Search({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'Search', url: '/search' },
+    { icon: ApiApp({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'APIs', url: '/rest' },
+    { icon: DatabaseDownload({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'Snapshots', url: '/snapshots' },
   ];
   const footerItems = [
     { icon: Setting({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'About', url: '/about' },
