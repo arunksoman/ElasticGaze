@@ -32,6 +32,6 @@
     <span class="text-base text-[var(--color-base-content)]">{name}</span>
   {/if}
   {#if active}
-    <span class="absolute left-0 top-0 h-full w-[3px] bg-[var(--color-primary)] rounded-r"></span>
+    <span class="absolute left-0 top-0 h-full w-1 bg-[var(--color-primary)]"></span>
   {/if}
 </button>
