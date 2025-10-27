@@ -71,7 +71,7 @@
 </script>
 
 <aside
-  class="fixed left-0 top-0 z-30 h-screen flex flex-col justify-between bg-(--color-base-200) transition-all duration-300"
+  class="fixed left-0 top-7 z-30 h-[calc(100vh-32px)] flex flex-col justify-between bg-(--color-base-100) transition-all duration-300 border-r border-r-(--color-base-300)"
   style="width: {expanded ? '220px' : '56px'};"
   onmouseenter={handleMouseEnter}
   onmouseleave={handleMouseLeave}
