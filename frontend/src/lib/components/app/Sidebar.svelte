@@ -4,7 +4,11 @@
   import SideBarMenuItem from '$lib/components/ui/sideBarComponents/sideBarMenuItem.svelte';
   import SideBarFooter from '$lib/components/ui/sideBarComponents/sideBarFooter.svelte';
   
-  let { onExpand } = $props();
+  interface SidebarProps {
+    onExpand?: (isExpanded: boolean) => void;
+  }
+  
+  let { onExpand }: SidebarProps = $props();
   import { 
     Home,
     Connect,

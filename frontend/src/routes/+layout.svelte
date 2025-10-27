@@ -15,7 +15,7 @@
 
 <WindowControls />
 <div class="flex">
-	<Sidebar on:update:expanded={e => sidebarExpanded.set(e.detail)} />
+	<Sidebar onExpand={(isExpanded: boolean) => sidebarExpanded.set(isExpanded)} />
 	<div class="flex-1 transition-all duration-300" style="margin-left: {$sidebarExpanded ? '220px' : '56px'}">
 		{@render children?.()}
 	</div>
