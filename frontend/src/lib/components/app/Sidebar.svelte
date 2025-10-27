@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
   import { sidebarExpanded } from '$lib/stores/sidebar';
   import SideBarHeader from '$lib/components/ui/sideBarComponents/sideBarHeader.svelte';
   import SideBarMenuItem from '$lib/components/ui/sideBarComponents/sideBarMenuItem.svelte';
   import SideBarFooter from '$lib/components/ui/sideBarComponents/sideBarFooter.svelte';
+  
+  let { onExpand } = $props();
   import { 
     Home,
     Connect,
@@ -15,12 +16,10 @@
     DatabaseDownload,
     Info
   } from '@icon-park/svg';
-  import { page } from '$app/stores';
-  let expanded = false;
-  $: expanded = $sidebarExpanded;
-  const dispatch = createEventDispatcher();
-  let keepOpen = false;
-  let hoverTimeout: NodeJS.Timeout | null = null;
+  import { page } from '$app/state';
+  let expanded = $derived($sidebarExpanded);
+  let keepOpen = $state(false);
+  let hoverTimeout = $state<NodeJS.Timeout | null>(null);
   let sidebar_icon_theme: 'outline' | 'filled' = 'outline';
   let sidebar_icon_size = 20;
 
@@ -38,36 +37,37 @@
     { icon: Setting({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'About', url: '/about' },
   ];
 
+  const currentUrl = $derived(page.url.pathname);
+
   function handleBrandClick() {
     keepOpen = !keepOpen;
     sidebarExpanded.set(keepOpen);
-    dispatch('update:expanded', keepOpen);
+    onExpand?.(keepOpen);
   }
 
   function handleMouseEnter() {
     if (!keepOpen) {
       if (hoverTimeout) clearTimeout(hoverTimeout);
       sidebarExpanded.set(true);
-      dispatch('update:expanded', true);
+      onExpand?.(true);
     }
   }
+
   function handleMouseLeave() {
     if (!keepOpen) {
       hoverTimeout = setTimeout(() => {
         sidebarExpanded.set(false);
-        dispatch('update:expanded', false);
+        onExpand?.(false);
       }, 120);
     }
   }
-
-  $: currentUrl = $page.url.pathname;
 </script>
 
 <aside
   class="fixed left-0 top-0 z-30 h-screen flex flex-col justify-between bg-(--color-base-200) transition-all duration-300"
   style="width: {expanded ? '220px' : '56px'};"
-  on:mouseenter={handleMouseEnter}
-  on:mouseleave={handleMouseLeave}
+  onmouseenter={handleMouseEnter}
+  onmouseleave={handleMouseLeave}
   role="navigation"
   aria-label="Main sidebar"
 >
