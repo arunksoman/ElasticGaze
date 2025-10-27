@@ -18,27 +18,30 @@
     ApiApp,
     DatabasePoint,
     DatabaseDownload,
-    Info
+    Info,
   } from '@icon-park/svg';
   import { page } from '$app/state';
+
+
   let expanded = $derived($sidebarExpanded);
   let keepOpen = $state(false);
   let hoverTimeout = $state<NodeJS.Timeout | null>(null);
   let sidebar_icon_theme: 'outline' | 'filled' = 'outline';
   let sidebar_icon_size = 20;
+  let stroke_width = 3.8;
 
   const menuItems = [
-    { icon: Home({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'Home', url: '/' },
-    { icon: Connect({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'Nodes', url: '/nodes' },
-    { icon: Server({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'Shards', url: '/shards' },
-    { icon: DatabasePoint({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'Indices', url: '/indices' },
-    { icon: Search({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'Search', url: '/search' },
-    { icon: ApiApp({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'APIs', url: '/rest' },
-    { icon: DatabaseDownload({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'Snapshots', url: '/snapshots' },
-    { icon: Info({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'Info', url: '/about' }
+    { icon: Home({ theme: sidebar_icon_theme, size: sidebar_icon_size, strokeWidth: stroke_width}), name: 'Home', url: '/' },
+    { icon: Connect({ theme: sidebar_icon_theme, size: sidebar_icon_size, strokeWidth: stroke_width}), name: 'Nodes', url: '/nodes' },
+    { icon: Server({ theme: sidebar_icon_theme, size: sidebar_icon_size, strokeWidth: stroke_width}), name: 'Shards', url: '/shards' },
+    { icon: DatabasePoint({ theme: sidebar_icon_theme, size: sidebar_icon_size, strokeWidth: stroke_width}), name: 'Indices', url: '/indices' },
+    { icon: Search({ theme: sidebar_icon_theme, size: sidebar_icon_size, strokeWidth: stroke_width}), name: 'Search', url: '/search' },
+    { icon: ApiApp({ theme: sidebar_icon_theme, size: sidebar_icon_size, strokeWidth: stroke_width}), name: 'APIs', url: '/rest' },
+    { icon: DatabaseDownload({ theme: sidebar_icon_theme, size: sidebar_icon_size, strokeWidth: stroke_width}), name: 'Snapshots', url: '/snapshots' },
+    { icon: Info({ theme: sidebar_icon_theme, size: sidebar_icon_size, strokeWidth: stroke_width}), name: 'Info', url: '/about' }
   ];
   const footerItems = [
-    { icon: Setting({ theme: sidebar_icon_theme, size: sidebar_icon_size }), name: 'About', url: '/about' },
+    { icon: Setting({ theme: sidebar_icon_theme, size: sidebar_icon_size, strokeWidth: stroke_width}), name: 'About', url: '/about' },
   ];
 
   const currentUrl = $derived(page.url.pathname);

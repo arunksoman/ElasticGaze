@@ -4,7 +4,7 @@
   import { goto } from '$app/navigation';
 </script>
 
-<div class="flex flex-col gap-2 px-4 py-3" role="contentinfo">
+<div class="flex flex-col gap-2 px-4 py-3 text-(--color-base-content)" role="contentinfo">
   {#each items as item}
     {#if item.url}
       <button

@@ -22,7 +22,7 @@
   onmouseenter={() => hovered = true}
   onmouseleave={() => hovered = false}
 >
-  <span class="w-8 h-8 flex items-center justify-center">
+  <span class="w-8 h-8 flex items-center justify-center text-(--color-base-content)">
     {@html icon}
     {#if hovered && !expanded}
       <span class="absolute left-full ml-2 px-2 py-1 rounded bg-(--color-base-300) text-xs text-(--color-base-content) shadow-lg z-50">{name}</span>
