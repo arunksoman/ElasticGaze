@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
-	import WindowControls from '$lib/components/ui/windowControlComponets/windowControls.svelte';
+	import WindowControls from '$lib/components/ui/windowControlComponet/windowControls.svelte';
 	import Sidebar from '$lib/components/app/Sidebar.svelte';
 	import { sidebarExpanded } from '$lib/stores/sidebar';
 
