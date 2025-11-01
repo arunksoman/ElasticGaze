@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"time"
 
 	_ "modernc.org/sqlite"
 )
@@ -35,6 +36,16 @@ func New(dbPath string) (*DB, error) {
 	}
 	db := &DB{conn: conn}
 
+	if err := db.configurePragmas(); err != nil {
+		db.Close()
+		logging.Errorf("Failed to configure Database pragmas: %w", err)
+		return nil, fmt.Errorf("failed to configure Database pragmas %w", err)
+	}
+	if err := db.initializeSchema(); err != nil {
+		db.Close()
+		logging.Errorf("Failed to initialize Database schema: %w", err)
+		return nil, fmt.Errorf("failed to initialize Database schema: %w", err)
+	}
 	return db, nil
 }
 
@@ -52,4 +63,50 @@ func (db *DB) Close() error {
 
 func (db *DB) Conn() *sql.DB {
 	return db.conn
+}
+
+func (db *DB) configurePragmas() error {
+	pragmas := []string{
+		"PRAGMA synchronous = NORMAL;",
+		"PRAGMA busy_timeout = 10000;",
+		"PRAGMA cache_size = 1000;",
+		"PRAGMA temp_store = MEMORY;",
+		"PRAGMA mapping_size = 268435456;",  // 256MB,
+		"PRAGMA wal_autocheckpoint = 1000;", //checkpoint every 1000 pages
+	}
+	for _, pragma := range pragmas {
+		if _, err := db.conn.Exec(pragma); err != nil {
+			logging.Warnf("Failed to set Database pragma '%s': %w", pragma, err)
+			return fmt.Errorf("failed to set Database pragma '%s': %w", pragma, err)
+		}
+	}
+	return nil
+}
+
+// ExecuteWithRetry executes a function with retry logic for database busy errors
+func (db *DB) ExecWithRetry(operation func() error, maxRetries int) error {
+	var lastErr error
+
+	for i := 0; i <= maxRetries; i++ {
+		err := operation()
+		if err == nil {
+			return nil
+		}
+
+		// Check if it's a database busy error
+		if err.Error() == "database is locked" || err.Error() == "database is busy" {
+			lastErr = err
+			if i < maxRetries {
+				// Wait with exponential backoff
+				waitTime := time.Duration(50*(i+1)) * time.Millisecond
+				time.Sleep(waitTime)
+				continue
+			}
+		} else {
+			// If it's not a busy/lock error, return immediately
+			return err
+		}
+	}
+
+	return fmt.Errorf("operation failed after %d retries: %w", maxRetries, lastErr)
 }
