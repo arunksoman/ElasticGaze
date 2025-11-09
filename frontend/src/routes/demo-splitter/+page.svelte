@@ -19,7 +19,16 @@
 			localStorage.removeItem(key);
 		}
 		
-		ref?.setSizes([300, 400, 300]);
+		// Get current sizes and calculate proportional reset
+		const currentSizes = ref?.getSizes() || [];
+		if (currentSizes.length === 3) {
+			const total = currentSizes.reduce((sum: number, size: number) => sum + size, 0);
+			// Reset to 1:2:1 ratio based on available space
+			const weights = [1, 2, 1];
+			const weightTotal = weights.reduce((sum, w) => sum + w, 0);
+			const newSizes = weights.map(w => (w / weightTotal) * total);
+			ref?.setSizes(newSizes);
+		}
 	}
 
 	function getCurrentSizes() {
@@ -87,7 +96,7 @@
 			<Splitter
 				bind:this={horizontalSplitterRef}
 				direction="horizontal"
-				gutterSize={8}
+				gutterSize={5}
 				minSize={[150, 200, 150]}
 				initialSizes={[1, 2, 1]}
 				storageKey="demo-horizontal-splitter"
@@ -125,7 +134,7 @@
 			<Splitter
 				bind:this={verticalSplitterRef}
 				direction="vertical"
-				gutterSize={8}
+				gutterSize={5}
 				minSize={[100, 150, 100]}
 				initialSizes={[1, 2, 1]}
 				storageKey="demo-vertical-splitter"

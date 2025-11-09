@@ -18,7 +18,7 @@
 	let {
 		id = `splitter-${Math.random().toString(36).substr(2, 9)}`,
 		direction = 'horizontal',
-		gutterSize = 8,
+		gutterSize = 5,
 		minSize = 100,
 		maxSize,
 		initialSizes = [],
@@ -65,17 +65,27 @@
 			Array.isArray(maxSize) ? maxSize[index] : maxSize
 		);
 
+		// Calculate available space
+		const containerSize = getContainerSize();
+		const numPanes = paneNodes.length;
+		const totalGutterSize = (numPanes - 1) * gutterSize;
+		const availableSize = containerSize - totalGutterSize;
+
 		// Load sizes from storage or calculate initial
 		const savedSizes = storageKey ? loadFromStorage() : null;
 		
 		if (savedSizes && savedSizes.length === paneNodes.length) {
-			paneSizes = savedSizes;
+			// Check if saved sizes fit in current available space
+			const savedTotal = savedSizes.reduce((sum, size) => sum + size, 0);
+			if (Math.abs(savedTotal - availableSize) < 10) {
+				// Sizes match, use them
+				paneSizes = savedSizes;
+			} else {
+				// Sizes don't match, scale them proportionally
+				const ratio = availableSize / savedTotal;
+				paneSizes = savedSizes.map(size => size * ratio);
+			}
 		} else {
-			const containerSize = getContainerSize();
-			const numPanes = paneNodes.length;
-			const totalGutterSize = (numPanes - 1) * gutterSize;
-			const availableSize = containerSize - totalGutterSize;
-
 			if (initialSizes.length === numPanes) {
 				const total = initialSizes.reduce((sum, size) => sum + size, 0);
 				paneSizes = initialSizes.map(size => (size / total) * availableSize);
