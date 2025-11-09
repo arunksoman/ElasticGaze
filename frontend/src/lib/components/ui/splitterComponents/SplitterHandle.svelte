@@ -6,13 +6,19 @@
 		direction: 'horizontal' | 'vertical';
 		size: number;
 		onDragStart?: (e: PointerEvent) => void;
+		onKeyboardMove?: (delta: number) => void;
+		onKeyboardHome?: () => void;
+		onKeyboardEnd?: () => void;
 	}
 
 	let {
 		index,
 		direction,
 		size = 8,
-		onDragStart
+		onDragStart,
+		onKeyboardMove,
+		onKeyboardHome,
+		onKeyboardEnd
 	}: Props = $props();
 
 	const cursor = $derived(direction === 'horizontal' ? 'col-resize' : 'row-resize');
@@ -23,6 +29,45 @@
 		onDragStart?.(e);
 	}
 
+	function handleKeyDown(e: KeyboardEvent) {
+		const step = 10; // pixels to move per keypress
+
+		switch (e.key) {
+			case 'ArrowLeft':
+				if (direction === 'horizontal') {
+					e.preventDefault();
+					onKeyboardMove?.(-step);
+				}
+				break;
+			case 'ArrowRight':
+				if (direction === 'horizontal') {
+					e.preventDefault();
+					onKeyboardMove?.(step);
+				}
+				break;
+			case 'ArrowUp':
+				if (direction === 'vertical') {
+					e.preventDefault();
+					onKeyboardMove?.(-step);
+				}
+				break;
+			case 'ArrowDown':
+				if (direction === 'vertical') {
+					e.preventDefault();
+					onKeyboardMove?.(step);
+				}
+				break;
+			case 'Home':
+				e.preventDefault();
+				onKeyboardHome?.();
+				break;
+			case 'End':
+				e.preventDefault();
+				onKeyboardEnd?.();
+				break;
+		}
+	}
+
 	const dragIcon = Drag({
 		theme: 'outline',
 		size: '14',
@@ -31,12 +76,22 @@
 	});
 </script>
 
+<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <div
 	class="splitter-handle"
 	class:horizontal={direction === 'horizontal'}
 	class:vertical={direction === 'vertical'}
 	style:cursor={cursor}
+	tabindex="0"
+	role="separator"
+	aria-orientation={direction}
+	aria-label={`Resize splitter ${index + 1}`}
+	aria-valuenow={50}
+	aria-valuemin={0}
+	aria-valuemax={100}
 	onpointerdown={handlePointerDown}
+	onkeydown={handleKeyDown}
 >
 	<div class="handle-grip" style:transform="rotate({iconRotation})">
 		{@html dragIcon}
@@ -55,6 +110,19 @@
 		align-items: center;
 		justify-content: center;
 		z-index: 10;
+		outline: none;
+	}
+
+	.splitter-handle:focus-visible {
+		background-color: var(--color-primary);
+		outline: 2px solid var(--color-primary);
+		outline-offset: -2px;
+	}
+
+	.splitter-handle:focus-visible .handle-grip {
+		opacity: 1;
+		background-color: var(--color-primary);
+		color: var(--color-primary-content);
 	}
 
 	.splitter-handle.horizontal {

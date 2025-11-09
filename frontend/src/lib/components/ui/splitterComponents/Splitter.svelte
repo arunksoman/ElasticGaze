@@ -228,6 +228,128 @@
 		if (storageKey) saveToStorage();
 	}
 
+	/**
+	 * Handle keyboard-based resizing
+	 */
+	function handleKeyboardMove(handleIndex: number, delta: number) {
+		const leftIndex = handleIndex;
+		const rightIndex = handleIndex + 1;
+
+		if (leftIndex < 0 || rightIndex >= paneSizes.length) return;
+
+		let newLeftSize = paneSizes[leftIndex] + delta;
+		let newRightSize = paneSizes[rightIndex] - delta;
+
+		// Apply min constraints
+		const leftMin = paneMinSizes[leftIndex];
+		const rightMin = paneMinSizes[rightIndex];
+		
+		newLeftSize = Math.max(newLeftSize, leftMin);
+		newRightSize = Math.max(newRightSize, rightMin);
+
+		// Apply max constraints
+		const leftMax = paneMaxSizes[leftIndex];
+		const rightMax = paneMaxSizes[rightIndex];
+		
+		if (leftMax !== undefined) newLeftSize = Math.min(newLeftSize, leftMax);
+		if (rightMax !== undefined) newRightSize = Math.min(newRightSize, rightMax);
+
+		// Maintain total size between the two panes
+		const totalSize = paneSizes[leftIndex] + paneSizes[rightIndex];
+		newRightSize = totalSize - newLeftSize;
+
+		// Re-check constraints
+		if (newRightSize < rightMin) {
+			newRightSize = rightMin;
+			newLeftSize = totalSize - newRightSize;
+		}
+		if (newLeftSize < leftMin) {
+			newLeftSize = leftMin;
+			newRightSize = totalSize - newLeftSize;
+		}
+
+		// Update only the two panes being resized
+		const newSizes = [...paneSizes];
+		newSizes[leftIndex] = newLeftSize;
+		newSizes[rightIndex] = newRightSize;
+
+		paneSizes = newSizes;
+		applyPaneSizes();
+		onresize?.(paneSizes);
+		
+		if (storageKey) saveToStorage();
+	}
+
+	/**
+	 * Move splitter to give left pane minimum size (Home key)
+	 */
+	function handleKeyboardHome(handleIndex: number) {
+		const leftIndex = handleIndex;
+		const rightIndex = handleIndex + 1;
+
+		if (leftIndex < 0 || rightIndex >= paneSizes.length) return;
+
+		const leftMin = paneMinSizes[leftIndex];
+		const totalSize = paneSizes[leftIndex] + paneSizes[rightIndex];
+		
+		const newLeftSize = leftMin;
+		const newRightSize = totalSize - newLeftSize;
+
+		// Check if right pane would violate its constraints
+		const rightMin = paneMinSizes[rightIndex];
+		if (newRightSize < rightMin) return; // Can't collapse that far
+
+		const newSizes = [...paneSizes];
+		newSizes[leftIndex] = newLeftSize;
+		newSizes[rightIndex] = newRightSize;
+
+		paneSizes = newSizes;
+		applyPaneSizes();
+		onresize?.(paneSizes);
+		
+		if (storageKey) saveToStorage();
+	}
+
+	/**
+	 * Move splitter to give left pane maximum size (End key)
+	 */
+	function handleKeyboardEnd(handleIndex: number) {
+		const leftIndex = handleIndex;
+		const rightIndex = handleIndex + 1;
+
+		if (leftIndex < 0 || rightIndex >= paneSizes.length) return;
+
+		const rightMin = paneMinSizes[rightIndex];
+		const totalSize = paneSizes[leftIndex] + paneSizes[rightIndex];
+		
+		const newRightSize = rightMin;
+		const newLeftSize = totalSize - newRightSize;
+
+		// Check if left pane would violate its max constraint
+		const leftMax = paneMaxSizes[leftIndex];
+		if (leftMax !== undefined && newLeftSize > leftMax) {
+			const constrainedLeftSize = leftMax;
+			const constrainedRightSize = totalSize - constrainedLeftSize;
+			
+			const newSizes = [...paneSizes];
+			newSizes[leftIndex] = constrainedLeftSize;
+			newSizes[rightIndex] = constrainedRightSize;
+			
+			paneSizes = newSizes;
+		} else {
+			const newSizes = [...paneSizes];
+			newSizes[leftIndex] = newLeftSize;
+			newSizes[rightIndex] = newRightSize;
+			
+			paneSizes = newSizes;
+		}
+
+		applyPaneSizes();
+		onresize?.(paneSizes);
+		
+		if (storageKey) saveToStorage();
+	}
+
 	function saveToStorage() {
 		if (typeof window === 'undefined' || !storageKey) return;
 		try {
@@ -298,6 +420,9 @@
 					{direction}
 					size={gutterSize}
 					onDragStart={handleDragStart(handleIndex)}
+					onKeyboardMove={(delta) => handleKeyboardMove(handleIndex, delta)}
+					onKeyboardHome={() => handleKeyboardHome(handleIndex)}
+					onKeyboardEnd={() => handleKeyboardEnd(handleIndex)}
 				/>
 			{/each}
 		{/if}
