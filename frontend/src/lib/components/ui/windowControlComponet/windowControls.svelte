@@ -1,6 +1,7 @@
 <script lang="ts">
-import { Minus, Close, ExpandTextInput, CollapseTextInput } from "@icon-park/svg/lib";
+import { Minus, Close, ExpandTextInput, CollapseTextInput, Api } from "@icon-park/svg";
 import { onMount } from 'svelte';
+import { goto } from '$app/navigation';
 import { WindowIsMaximised, WindowMaximise, WindowUnmaximise, WindowMinimise, Quit } from "$lib/wailsjs/runtime/runtime.js";
 import { writable } from 'svelte/store';
 
@@ -36,6 +37,16 @@ async function handleClose() {
   class="flex items-center justify-end h-7 w-full select-none bg-(--color-base-100) text-(--color-base-content)"
   style="--wails-draggable:drag;"
 >
+  <button
+    class="w-8 h-7 flex items-center justify-center cursor-pointer transition-colors duration-200 hover:bg-(--color-base-200)"
+    style="--wails-draggable:no-drag;"
+    aria-label="Connections"
+    onclick={() => goto('/connections')}
+  >
+    <span class="w-5 h-5 flex items-center justify-center">
+  {@html Api({ theme: 'outline', size: 16, fill: 'var(--color-base-content)' })}
+    </span>
+  </button>
   <button
     class="w-8 h-7 flex items-center justify-center cursor-pointer transition-colors duration-200 hover:bg-(--color-base-200)"
     style="--wails-draggable:no-drag;"
