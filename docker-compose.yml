@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+  # Elasticsearch with password authentication
+  elasticsearch-password:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: elasticsearch-password
+    environment:
+      - node.name=es-password-node
+      - cluster.name=es-password-cluster
+      - discovery.type=single-node
+      - ELASTIC_PASSWORD=elastic123
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - es-password-data:/usr/share/elasticsearch/data
+    networks:
+      - elastic-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s -u elastic:elastic123 http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Elasticsearch without password (security disabled)
+  elasticsearch-no-password:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: elasticsearch-no-password
+    environment:
+      - node.name=es-no-password-node
+      - cluster.name=es-no-password-cluster
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9201:9200"
+      - "9301:9300"
+    volumes:
+      - es-no-password-data:/usr/share/elasticsearch/data
+    networks:
+      - elastic-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Elasticsearch with API key authentication
+  elasticsearch-apikey:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: elasticsearch-apikey
+    environment:
+      - node.name=es-apikey-node
+      - cluster.name=es-apikey-cluster
+      - discovery.type=single-node
+      - ELASTIC_PASSWORD=elastic123
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      - xpack.security.authc.api_key.enabled=true
+    ports:
+      - "9202:9200"
+      - "9302:9300"
+    volumes:
+      - es-apikey-data:/usr/share/elasticsearch/data
+    networks:
+      - elastic-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s -u elastic:elastic123 http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  es-password-data:
+    driver: local
+  es-no-password-data:
+    driver: local
+  es-apikey-data:
+    driver: local
+
+networks:
+  elastic-network:
+    driver: bridge
