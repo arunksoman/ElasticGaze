@@ -1,8 +1,8 @@
 <script lang="ts">
   import { sidebarExpanded } from '$lib/stores/sidebar';
-  import SideBarHeader from '$lib/components/ui/sideBarComponents/sideBarHeader.svelte';
-  import SideBarMenuItem from '$lib/components/ui/sideBarComponents/sideBarMenuItem.svelte';
-  import SideBarFooter from '$lib/components/ui/sideBarComponents/sideBarFooter.svelte';
+  import SideBarHeader from '$lib/components/ui/sideBarComponents/SideBarHeader.svelte';
+  import SideBarMenuItem from '$lib/components/ui/sideBarComponents/SideBarMenuItem.svelte';
+  import SideBarFooter from '$lib/components/ui/sideBarComponents/SideBarFooter.svelte';
   
   interface SidebarProps {
     onExpand?: (isExpanded: boolean) => void;
