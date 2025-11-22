@@ -61,6 +61,36 @@
     }
   });
 
+  // Handle clicks outside popover (but allow theme switcher clicks)
+  $effect(() => {
+    if (!settingsOpen) return;
+
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const popoverElement = document.querySelector('[role="dialog"]');
+      const triggerButton = triggerElement;
+      
+      // Check if click is on theme switcher
+      const isThemeSwitcher = target.closest('.theme-switcher-wrapper') || 
+                             target.closest('.theme-switcher-container') ||
+                             target.classList.contains('theme-switcher-input');
+      
+      // Check if click is inside popover or on trigger
+      const isInsidePopover = popoverElement?.contains(target);
+      const isOnTrigger = triggerButton?.contains(target);
+      
+      if (!isInsidePopover && !isOnTrigger && !isThemeSwitcher) {
+        settingsOpen = false;
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside, true);
+    
+    return () => {
+      document.removeEventListener('click', handleClickOutside, true);
+    };
+  });
+
   function handleBrandClick() {
     keepOpen = !keepOpen;
     sidebarExpanded.set(keepOpen);
@@ -114,7 +144,7 @@
     placement="right-end" 
     offset={8}
     arrow={true}
-    closeOnOutsideClick={true}
+    closeOnOutsideClick={false}
   >
     {#snippet trigger()}
       <button
@@ -156,8 +186,11 @@
           <div class="ml-auto">
             <ThemeSwitcher 
               onchange={(isDark) => {
-                // Optional: Add any additional theme change handling here
                 console.log('Theme changed to:', isDark ? 'dark' : 'light');
+                // Wait for animation to complete before closing popover
+                setTimeout(() => {
+                  settingsOpen = false;
+                }, 700); // 300ms animation + 100ms buffer
               }}
             />
           </div>
