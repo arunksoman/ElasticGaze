@@ -122,7 +122,7 @@
 				background-color: var(--color-base-200);
 				color: {selectedOption ? 'var(--color-base-content)' : 'var(--color-base-content)'};
 				border: var(--border) solid var(--color-base-300);
-				border-radius: var(--radius-selector);
+				border-radius: var(--radius-field);
 				padding: var(--size-selector);
 				padding-left: 0.75rem;
 				padding-right: 0.75rem;
@@ -178,7 +178,7 @@
 				style="
 					background-color: var(--color-base-100);
 					border: var(--border) solid var(--color-base-300);
-					border-radius: var(--radius-selector);
+					border-radius: var(--radius-field);
 				"
 				role="listbox"
 				transition:slide={{ duration: 200 }}

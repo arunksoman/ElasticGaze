@@ -54,7 +54,7 @@
 		style="
 			width: 3.5rem;
 			height: 1.75rem;
-			background-color: {isDarkTheme ? 'var(--color-accent)' : 'var(--color-warning)'};
+			background-color: {isDarkTheme ? 'var(--color-secondary)' : 'var(--color-secondary)'};
 			border-radius: var(--radius-selector);
 		"
 		role="switch"
@@ -77,7 +77,7 @@
 			style="
 				width: 1.375rem;
 				height: 1.375rem;
-				background-color: var(--color-base-content);
+				background-color: var(--color-base-100);
 				border-radius: 50%;
 				left: {isDarkTheme ? 'calc(100% - 1.375rem - 0.1875rem)' : '0.1875rem'};
 				top: 50%;
@@ -85,11 +85,11 @@
 			"
 		>
 			{#if isDarkTheme}
-				<span class="icon-wrapper" style="color: var(--color-base-100); line-height: 0;">
+				<span class="icon-wrapper" style="color: var(--color-base-content); line-height: 0;">
 					{@html moonIconHtml}
 				</span>
 			{:else}
-				<span class="icon-wrapper" style="color: var(--color-warning); line-height: 0;">
+				<span class="icon-wrapper" style="color: var(--color-base-content); line-height: 0;">
 					{@html sunIconHtml}
 				</span>
 			{/if}
