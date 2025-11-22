@@ -6,6 +6,7 @@ import (
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
+	// "github.com/wailsapp/wails/v2/pkg/options/windows"
 )
 
 //go:embed all:frontend/build
@@ -22,6 +23,11 @@ func main() {
 		Height:    752,
 		MinWidth:  980,
 		MinHeight: 752,
+		// Windows: &windows.Options{
+		// 	ZoomFactor:           0.9,
+		// 	IsZoomControlEnabled: true,
+		// 	DisablePinchZoom:     true,
+		// },
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
