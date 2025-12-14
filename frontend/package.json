@@ -39,6 +39,15 @@
 		"vite": "^7.1.7"
 	},
 	"dependencies": {
-		"@icon-park/svg": "^1.4.2"
+		"@codemirror/autocomplete": "^6.20.0",
+		"@codemirror/commands": "^6.10.0",
+		"@codemirror/lang-json": "^6.0.2",
+		"@codemirror/language": "^6.11.3",
+		"@codemirror/lint": "^6.9.2",
+		"@codemirror/search": "^6.5.11",
+		"@codemirror/state": "^6.5.2",
+		"@codemirror/view": "^6.39.4",
+		"@icon-park/svg": "^1.4.2",
+		"@lezer/highlight": "^1.2.3"
 	}
 }
