@@ -128,10 +128,22 @@ export function createCodeMirrorEditor(options: UseCodeMirrorOptions): EditorVie
 			}
 		}),
 		
-		// Zoom scaling
+		// Zoom scaling - target all text elements
 		EditorView.theme({
-			'.cm-content, .cm-gutters': {
-				fontSize: `${zoomLevel}%`,
+			'&': {
+				fontSize: `${14 * (zoomLevel / 100)}px !important`,
+			},
+			'.cm-content': {
+				fontSize: `${14 * (zoomLevel / 100)}px !important`,
+			},
+			'.cm-line': {
+				fontSize: `${14 * (zoomLevel / 100)}px !important`,
+			},
+			'.cm-gutters': {
+				fontSize: `${14 * (zoomLevel / 100)}px !important`,
+			},
+			'.cm-lineNumbers': {
+				fontSize: `${14 * (zoomLevel / 100)}px !important`,
 			},
 		}),
 		
@@ -145,32 +157,38 @@ export function createCodeMirrorEditor(options: UseCodeMirrorOptions): EditorVie
 			...completionKeymap,
 			...lintKeymap,
 			indentWithTab,
-			// Zoom controls
+		]),
+		
+		// Separate keymap for zoom controls (highest priority)
+		keymap.of([
 			{
 				key: 'Ctrl-=',
 				run: (view) => {
 					if (onZoomChange) {
 						onZoomChange(Math.min(zoomLevel + 10, 200));
+						return true;
 					}
-					return true;
+					return false;
 				},
 			},
 			{
-				key: 'Ctrl-Plus',
+				key: 'Ctrl-+',
 				run: (view) => {
 					if (onZoomChange) {
 						onZoomChange(Math.min(zoomLevel + 10, 200));
+						return true;
 					}
-					return true;
+					return false;
 				},
 			},
 			{
-				key: 'Ctrl-Minus',
+				key: 'Ctrl--',
 				run: (view) => {
 					if (onZoomChange) {
 						onZoomChange(Math.max(zoomLevel - 10, 50));
+						return true;
 					}
-					return true;
+					return false;
 				},
 			},
 			{
@@ -178,8 +196,9 @@ export function createCodeMirrorEditor(options: UseCodeMirrorOptions): EditorVie
 				run: (view) => {
 					if (onZoomChange) {
 						onZoomChange(100);
+						return true;
 					}
-					return true;
+					return false;
 				},
 			},
 		]),

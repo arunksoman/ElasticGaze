@@ -92,8 +92,22 @@
 		// Recreate editor with new zoom level
 		if (editorView && editorContainer) {
 			const currentValue = editorView.state.doc.toString();
+			// Store cursor position
+			const cursorPos = editorView.state.selection.main.head;
+			
 			editorView.destroy();
 			initializeEditor(currentValue);
+			
+			// Restore focus and cursor position after a brief delay
+			setTimeout(() => {
+				if (editorView) {
+					editorView.focus();
+					// Restore cursor position
+					editorView.dispatch({
+						selection: { anchor: cursorPos, head: cursorPos }
+					});
+				}
+			}, 10);
 		}
 	}
 
@@ -199,13 +213,58 @@
 		}
 	});
 
+	/**
+	 * Handle keyboard events on the wrapper for zoom
+	 */
+	function handleWrapperKeyDown(event: KeyboardEvent) {
+		// Check if Ctrl is pressed (or Cmd on Mac)
+		const isModifier = event.ctrlKey || event.metaKey;
+		
+		if (isModifier) {
+			// Handle zoom controls
+			if (event.key === '+' || event.key === '=') {
+				event.preventDefault();
+				handleZoomChange(Math.min(zoomLevel + 10, 200));
+			} else if (event.key === '-') {
+				event.preventDefault();
+				handleZoomChange(Math.max(zoomLevel - 10, 50));
+			} else if (event.key === '0') {
+				event.preventDefault();
+				handleZoomChange(100);
+			}
+		}
+	}
+
+	/**
+	 * Prevent browser zoom when editor is focused
+	 */
+	function handleKeyDown(event: KeyboardEvent) {
+		// Check if Ctrl is pressed (or Cmd on Mac)
+		const isModifier = event.ctrlKey || event.metaKey;
+		
+		// Check if the event target is within the editor
+		const targetElement = event.target as HTMLElement;
+		const isInEditor = editorContainer?.contains(targetElement);
+		
+		if (isModifier && isInEditor) {
+			// Prevent browser zoom for +, -, =, 0
+			if (event.key === '+' || event.key === '=' || event.key === '-' || event.key === '0') {
+				event.preventDefault();
+			}
+		}
+	}
+
 	onMount(() => {
 		initializeEditor();
 		isInitialized = true;
 		const cleanupObserver = setupThemeObserver();
+		
+		// Add global keydown listener to prevent browser zoom
+		window.addEventListener('keydown', handleKeyDown);
 
 		return () => {
 			cleanupObserver();
+			window.removeEventListener('keydown', handleKeyDown);
 			if (zoomTimeout) {
 				clearTimeout(zoomTimeout);
 			}
@@ -222,6 +281,8 @@
 	});
 </script>
 
+<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <div 
 	class="code-editor-wrapper relative"
 	style="
@@ -232,8 +293,10 @@
 		background-color: var(--color-base-100);
 		overflow: hidden;
 	"
-	role="group"
-	aria-label="Code editor container"
+	role="application"
+	aria-label="Code editor with zoom controls"
+	tabindex="0"
+	onkeydown={handleWrapperKeyDown}
 >
 	<!-- Read-only indicator -->
 	{#if readOnly}

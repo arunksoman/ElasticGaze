@@ -302,7 +302,7 @@
 				style="background-color: var(--color-base-200); color: var(--color-base-content);"
 			>
 				<strong>Note:</strong> This editor starts in read-only mode. Toggle the switch above to enable editing.
-				Zoom level is independent from Editor 1!
+				Zoom level is independent from Editor 1! <strong>Zoom works in both edit and read-only modes.</strong>
 			</div>
 		</div>
 	</Card>
