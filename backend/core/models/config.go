@@ -50,9 +50,9 @@ func (c *CreateConfigRequest) Validate() error {
 }
 
 var (
-	ErrConnectionNameRequired    = &ValidationError{Field: "connection_name", Message: "Connection name is required"}
-	ErrHostRequired              = &ValidationError{Field: "host", Message: "Host is required"}
-	ErrMultipleDefaultNotAllowed = &ValidationError{Field: "set_as_default", Message: "Only one configuration can be set as default"}
-	ErrMethodRequired            = &ValidationError{Field: "method", Message: "HTTP method is required"}
-	ErrEndpointRequired          = &ValidationError{Field: "endpoint", Message: "endpoint is required"}
+	ErrConnectionNameRequired     = &ValidationError{Field: "connection_name", Message: "Connection name is required"}
+	ErrHostRequired               = &ValidationError{Field: "host", Message: "Host is required"}
+	ErrMultipleDefaultsNotAllowed = &ValidationError{Field: "set_as_default", Message: "Only one configuration can be set as default"}
+	ErrMethodRequired             = &ValidationError{Field: "method", Message: "HTTP method is required"}
+	ErrEndpointRequired           = &ValidationError{Field: "endpoint", Message: "endpoint is required"}
 )
