@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { sidebarExpanded } from '$lib/stores/sidebar';
+  import { sidebarExpanded } from '$lib/components/ui/sideBarComponents/sidebar';
   import SideBarHeader from '$lib/components/ui/sideBarComponents/sideBarHeader.svelte';
   import SideBarMenuItem from '$lib/components/ui/sideBarComponents/sideBarMenuItem.svelte';
   import { Popover } from '$lib/components/ui/popoverComponents';

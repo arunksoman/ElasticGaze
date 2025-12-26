@@ -3,7 +3,7 @@
   import Card from '$lib/components/ui/Card/Card.svelte';
   import Button from '$lib/components/ui/formComponents/Button.svelte';
   import { Copy, Setting, Check, Delete } from '@icon-park/svg';
-  import { toastStore } from '$lib/stores/toastStore';
+  import { toastStore } from '$lib/components/ui/toastComponent/toastStore';
 
   function handleCardClick(message: string) {
     toastStore.show(message, { type: 'info' });

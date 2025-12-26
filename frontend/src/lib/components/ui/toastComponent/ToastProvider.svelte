@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { toastStore } from '$lib/stores/toastStore';
+	import { toastStore } from '$lib/components/ui/toastComponent/toastStore';
 	import Toast from './toast.svelte';
 
 	type Position =

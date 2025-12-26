@@ -4,7 +4,7 @@
 	import WindowControls from '$lib/components/ui/windowControlComponet/windowControls.svelte';
 	import Sidebar from '$lib/components/app/Sidebar.svelte';
 	import ToastProvider from '$lib/components/ui/toastComponent/ToastProvider.svelte';
-	import { sidebarExpanded } from '$lib/stores/sidebar';
+	import { sidebarExpanded } from '$lib/components/ui/sideBarComponents/sidebar';
 
 	let { children } = $props();
 	let expanded = $state(false);

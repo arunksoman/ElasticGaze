@@ -2,8 +2,8 @@
 	import { onMount } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { Copy, Close } from '@icon-park/svg';
-	import { toastStore } from '$lib/stores/toastStore';
-	import type { ToastType } from '$lib/stores/toastStore';
+	import { toastStore } from '$lib/components/ui/toastComponent/toastStore';
+	import type { ToastType } from '$lib/components/ui/toastComponent/toastStore';
 
 	interface Props {
 		id: string;
