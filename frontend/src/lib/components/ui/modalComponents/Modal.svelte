@@ -48,7 +48,7 @@
 		sm: 'max-w-sm',
 		md: 'max-w-md',
 		lg: 'max-w-lg',
-		xl: 'max-w-xl',
+		xl: 'max-w-3xl w-full',
 		fullscreen: 'w-full h-full max-w-full max-h-full'
 	}[size]);
 

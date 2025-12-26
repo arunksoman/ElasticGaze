@@ -39,8 +39,8 @@
 
 	let eyeIconHtml = $derived(
 		showPassword
-			? PreviewClose({ theme: 'outline', size: '16', strokeWidth: 3 })
-			: Eyes({ theme: 'outline', size: '16', strokeWidth: 3 })
+			? Eyes({ theme: 'outline', size: '16', strokeWidth: 3 })
+			: PreviewClose({ theme: 'outline', size: '16', strokeWidth: 3 })
 	);
 </script>
 
