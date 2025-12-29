@@ -65,7 +65,7 @@
 		try {
 			const testRequest = {
 				host,
-				port,
+				port: String(port),
 				ssl_or_https: useSSL,
 				authentication_method: authMethod,
 				username: authMethod === 'basic_auth' ? username : null,
@@ -113,7 +113,7 @@
 				connection_name: connectionName,
 				env_indicator_color: envColor,
 				host,
-				port,
+				port: String(port),
 				ssl_or_https: useSSL,
 				authentication_method: authMethod,
 				username: authMethod === 'basic_auth' ? username : null,
