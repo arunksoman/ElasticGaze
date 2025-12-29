@@ -74,15 +74,6 @@
 		}
 	}
 
-	// Handle backdrop keyboard interaction
-	function handleBackdropKeydown(e: KeyboardEvent) {
-		// Backdrop responds to ESC and Enter/Space (same as click)
-		if (!persistent && (e.key === 'Enter' || e.key === ' ')) {
-			e.preventDefault();
-			closeModal();
-		}
-	}
-
 	// Handle ESC key globally
 	function handleKeydown(e: KeyboardEvent) {
 		if (e.key === 'Escape' && !persistent) {
@@ -226,7 +217,6 @@
 		role="presentation"
 		tabindex="-1"
 		onclick={handleBackdropClick}
-		onkeydown={handleBackdropKeydown}
 		transition:fade={{ duration: 300 }}
 	>
 		<!-- Backdrop -->
