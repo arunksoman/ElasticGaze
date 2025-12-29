@@ -29,7 +29,7 @@ func (r *ConfigRepository) Create(req *models.CreateConfigRequest) (*models.Conf
 	}
 
 	err := r.db.QueryRow(`
-		INSERT INTO configs (connection_name, env_indicator_color, host, port, ssl_or_https, authentication_method, username, password, set_as_default)
+		INSERT INTO tbl_config (connection_name, env_indicator_color, host, port, ssl_or_https, authentication_method, username, password, set_as_default)
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
 		RETURNING id, created_at, updated_at
 	`, config.ConnectionName, config.EnvIndicatorColor, config.Host, config.Port, config.SSLOrHTTPS, config.AuthenticationMethod, config.Username, config.Password, config.SetAsDefault).Scan(&config.ID, &config.CreatedAt, &config.UpdatedAt)
