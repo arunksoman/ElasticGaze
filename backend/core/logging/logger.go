@@ -22,24 +22,21 @@ type WailsFileLogger struct {
 	logLevel logger.LogLevel
 }
 
-func InitLogger(baseDir string) (*WailsFileLogger, error) {
-	logDir := filepath.Join(baseDir, "es_gaze_logs")
+func InitLogger(logDir string) (*WailsFileLogger, error) {
 	if err := os.MkdirAll(logDir, 0755); err != nil {
 		return nil, err
 	}
 	logFile := &timberjack.Logger{
-		Filename:           "/var/log/myapp/foo.log",   // Choose an appropriate path
-		MaxSize:            150,                        // megabytes
-		MaxBackups:         3,                          // backups
-		MaxAge:             28,                         // days
-		Compression:        "gzip",                     // "none" | "gzip" | "zstd" (preferred over legacy Compress)
-		LocalTime:          true,                       // default: false (use UTC)
-		RotationInterval:   24 * time.Hour,             // Rotate daily if no other rotation met
-		RotateAtMinutes:    []int{0, 15, 30, 45},       // Also rotate at HH:00, HH:15, HH:30, HH:45
-		RotateAt:           []string{"00:00", "12:00"}, // Also rotate at 00:00 and 12:00 each day
-		BackupTimeFormat:   "2006-01-02-15-04-05",      // Rotated files will have format <logfilename>-2006-01-02-15-04-05-<reason>.log
-		AppendTimeAfterExt: true,                       // put timestamp after ".log" (foo.log-<timestamp>-<reason>)
-		FileMode:           0o644,                      // Custom permissions for newly created files. If unset or 0, defaults to 640.
+		Filename:           filepath.Join(logDir, "elasticgaze.log"),
+		MaxSize:            150,                       // megabytes
+		MaxBackups:         5,                         // backups
+		MaxAge:             28,                        // days
+		Compression:        "none",                    // Disabled to avoid Windows file locking issues
+		LocalTime:          true,                      // default: false (use UTC)
+		RotationInterval:   24 * time.Hour,            // Rotate daily
+		BackupTimeFormat:   "2006-01-02T15-04-05.000", // Rotated files will have format <logfilename>-<timestamp>-<reason>.log
+		AppendTimeAfterExt: true,                      // put timestamp after ".log" (foo.log-<timestamp>-<reason>)
+		FileMode:           0o644,                     // Custom permissions for newly created files. If unset or 0, defaults to 640.
 	}
 	multiwriter := io.MultiWriter(os.Stdout, logFile)
 	stdLogger := log.New(multiwriter, "", log.LstdFlags|log.Lshortfile)
