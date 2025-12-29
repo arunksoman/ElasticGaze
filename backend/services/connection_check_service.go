@@ -84,7 +84,7 @@ func (s *ElasticsearchService) TestConnection(req *models.ConnectionTestRequest)
 	}
 
 	// Make the request
-	logging.Info("🚀 Making HTTP request...")
+	logging.Info(" Making HTTP request...")
 	start := time.Now()
 	resp, err := s.client.Do(httpReq)
 	duration := time.Since(start)
@@ -529,7 +529,7 @@ func (s *ElasticsearchService) ExecuteRestRequest(config *models.Config, req *mo
 	httpReq.Header.Set("User-Agent", "ElasticGaze/1.0")
 
 	// Make the request
-	logging.Info("🚀 Making HTTP request...")
+	logging.Info("Making HTTP request...")
 	start := time.Now()
 	resp, err := s.client.Do(httpReq)
 	duration := time.Since(start)

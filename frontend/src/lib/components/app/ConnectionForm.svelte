@@ -25,7 +25,7 @@
 	let host = $state('');
 	let port = $state('9200');
 	let useSSL = $state(false);
-	let authMethod = $state('no_auth');
+	let authMethod = $state('none');
 	let username = $state('');
 	let password = $state('');
 	let apiKey = $state('');
@@ -34,9 +34,9 @@
 
 	// Authentication options
 	const authOptions = [
-		{ label: 'No Authentication', value: 'no_auth' },
-		{ label: 'Basic Auth (Username/Password)', value: 'basic_auth' },
-		{ label: 'API Key', value: 'api_key' }
+		{ label: 'No Authentication', value: 'none' },
+		{ label: 'Basic Auth (Username/Password)', value: 'basic' },
+		{ label: 'API Key', value: 'apikey' }
 	];
 
 	// Initialize form with existing data if in edit mode
@@ -47,7 +47,7 @@
 			host = initialData.host || '';
 			port = initialData.port || '9200';
 			useSSL = initialData.ssl_or_https || false;
-			authMethod = initialData.authentication_method || 'no_auth';
+			authMethod = initialData.authentication_method || 'none';
 			username = initialData.username || '';
 			password = initialData.password || '';
 			setAsDefault = initialData.set_as_default || false;
@@ -68,8 +68,8 @@
 				port: String(port),
 				ssl_or_https: useSSL,
 				authentication_method: authMethod,
-				username: authMethod === 'basic_auth' ? username : null,
-				password: authMethod === 'basic_auth' ? password : authMethod === 'api_key' ? apiKey : null
+				username: authMethod === 'basic' ? username : null,
+				password: authMethod === 'basic' ? password : authMethod === 'apikey' ? apiKey : null
 			};
 
 			const response = await CheckConnection(testRequest);
@@ -77,7 +77,8 @@
 			if (response.success) {
 				toastStore.show('Connection successful!', { type: 'success', duration: 3000 });
 			} else {
-				toastStore.show(`Connection failed: ${response.message}`, { type: 'error', duration: 5000 });
+				const errorMsg = response.error_details || response.message || 'Unknown error';
+				toastStore.show(`Connection failed: ${errorMsg}`, { type: 'error', duration: 5000 });
 			}
 		} catch (error) {
 			toastStore.show(`Connection test failed: ${error}`, { type: 'error', duration: 5000 });
@@ -98,12 +99,12 @@
 			return;
 		}
 
-		if (authMethod === 'basic_auth' && (!username.trim() || !password.trim())) {
+		if (authMethod === 'basic' && (!username.trim() || !password.trim())) {
 			toastStore.show('Please enter username and password', { type: 'error', duration: 3000 });
 			return;
 		}
 
-		if (authMethod === 'api_key' && !apiKey.trim()) {
+		if (authMethod === 'apikey' && !apiKey.trim()) {
 			toastStore.show('Please enter an API key', { type: 'error', duration: 3000 });
 			return;
 		}
@@ -116,8 +117,8 @@
 				port: String(port),
 				ssl_or_https: useSSL,
 				authentication_method: authMethod,
-				username: authMethod === 'basic_auth' ? username : null,
-				password: authMethod === 'basic_auth' ? password : authMethod === 'api_key' ? apiKey : null,
+				username: authMethod === 'basic' ? username : null,
+				password: authMethod === 'basic' ? password : authMethod === 'apikey' ? apiKey : null,
 				set_as_default: setAsDefault
 			};
 
@@ -139,7 +140,7 @@
 		host = '';
 		port = '9200';
 		useSSL = false;
-		authMethod = 'no_auth';
+		authMethod = 'none';
 		username = '';
 		password = '';
 		apiKey = '';
@@ -204,7 +205,7 @@
 		</div>
 
 		<!-- Authentication Fields -->
-		{#if authMethod === 'basic_auth'}
+		{#if authMethod === 'basic'}
 			<div class="grid grid-cols-2 gap-4">
 				<div>
 					<Input
@@ -221,7 +222,7 @@
 					/>
 				</div>
 			</div>
-		{:else if authMethod === 'api_key'}
+		{:else if authMethod === 'apikey'}
 			<div>
 				<PasswordField
 					label="API Key"
