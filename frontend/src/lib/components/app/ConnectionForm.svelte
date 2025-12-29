@@ -244,7 +244,7 @@
 	<div class="form-actions flex justify-between mt-6">
 		<div>
 			<Button
-				variant="accent"
+				variant="secondary"
 				loading={isTestingConnection}
 				onclick={handleTestConnection}
 			>
