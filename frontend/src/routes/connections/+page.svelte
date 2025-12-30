@@ -42,14 +42,17 @@
 	}
 </script>
 
-<div class="max-w-6xl ml-4 mt-4">
-	<div class="flex justify-between items-center mb-6">
-		<h1 class="text-2xl font-bold">Connections</h1>
+<div class="relative">
+	<div class="absolute top-4 right-4 z-10">
 		<Button variant="primary" onclick={openConnectionModal}>
 			{@html Plus({ theme: 'outline', size: '16', strokeWidth: 3 })}
 			Add Connection
 		</Button>
 	</div>
+</div>
+
+<div class="max-w-6xl ml-4 mt-4">
+	<h1 class="text-2xl font-bold mb-6">Connections</h1>
 	
 	<DefaultConnectionMessage currentPath={$page.url.pathname} />
 

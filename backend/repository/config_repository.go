@@ -228,7 +228,7 @@ func (r *ConfigRepository) Update(id int, req *models.UpdateConfigRequest) (*mod
 }
 
 func (r *ConfigRepository) Delete(id int) error {
-	query := `DELETE FROM configs WHERE id = $1`
+	query := `DELETE FROM tbl_config WHERE id = $1`
 	result, err := r.db.Exec(query, id)
 
 	if err != nil {
@@ -255,7 +255,7 @@ func (r *ConfigRepository) Delete(id int) error {
 
 func (r *ConfigRepository) HasDefaultConfig() (bool, error) {
 	var count int
-	query := `SELECT COUNT(*) FROM configs WHERE set_as_default = 1`
+	query := `SELECT COUNT(*) FROM tbl_config WHERE set_as_default = 1`
 	err := r.db.QueryRow(query).Scan(&count)
 	if err != nil {
 		return false, err
@@ -264,7 +264,7 @@ func (r *ConfigRepository) HasDefaultConfig() (bool, error) {
 }
 
 func (r *ConfigRepository) unsetAllDefaults() error {
-	query := `UPDATE configs SET set_as_default = 0 WHERE set_as_default = 1`
+	query := `UPDATE tbl_config SET set_as_default = 0 WHERE set_as_default = 1`
 	_, err := r.db.Exec(query)
 	return err
 }
