@@ -3,6 +3,7 @@
 	import { Modal } from '$lib/components/ui/modalComponents';
 	import { Button } from '$lib/components/ui/formComponents';
 	import ConnectionForm from '$lib/components/app/ConnectionForm.svelte';
+	import ConnectionCard from '$lib/components/app/ConnectionCard.svelte';
 	import DefaultConnectionMessage from '$lib/components/app/DefaultConnectionMessage.svelte';
 	import { GetAllConfigs } from '$lib/wailsjs/go/main/App';
 	import { Plus } from '@icon-park/svg';
@@ -62,37 +63,12 @@
 		<p class="text-(--color-base-content) opacity-70">No connections configured yet.</p>
 	{:else}
 		<div class="connections-grid">
-			{#each connections as connection}
-				<div
-					class="connection-card p-4 rounded-lg"
-					style="
-						background-color: var(--color-base-200);
-						border: var(--border) solid var(--color-base-300);
-						border-top: 4px solid {connection.env_indicator_color || '#3b82f6'};
-					"
-				>
-					<div class="flex justify-between items-start">
-						<div>
-							<h3 class="text-lg font-semibold" style="color: var(--color-base-content);">
-								{connection.connection_name}
-							</h3>
-							<p class="text-sm" style="color: var(--color-base-content); opacity: 0.7;">
-								{connection.host}:{connection.port}
-							</p>
-							{#if connection.set_as_default}
-								<span
-									class="text-xs px-2 py-1 rounded mt-2 inline-block"
-									style="
-										background-color: var(--color-accent);
-										color: var(--color-accent-content);
-									"
-								>
-									Default
-								</span>
-							{/if}
-						</div>
-					</div>
-				</div>
+			{#each connections as connection (connection.id)}
+				<ConnectionCard
+					{connection}
+					onUpdate={loadConnections}
+					onDelete={loadConnections}
+				/>
 			{/each}
 		</div>
 	{/if}
@@ -115,24 +91,20 @@
 <style>
 	.connections-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-		gap: 1rem;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: 1.5rem;
 	}
-
-	.flex {
-		display: flex;
+	
+	@media (min-width: 640px) {
+		.connections-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
 	}
-
-	.justify-between {
-		justify-content: space-between;
-	}
-
-	.items-center {
-		align-items: center;
-	}
-
-	.items-start {
-		align-items: flex-start;
+	
+	@media (min-width: 1024px) {
+		.connections-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
 	}
 
 	.mb-6 {
