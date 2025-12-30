@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { ENV_COLOR_OPTIONS, DEFAULT_ENV_COLOR } from '$lib/core/constants';
+
 	interface ColorOption {
 		value: string;
 		color: string;
@@ -16,16 +18,8 @@
 
 	let {
 		label = undefined,
-		options = [
-			{ value: 'red', color: '#ef4444' },
-			{ value: 'orange', color: '#f97316' },
-			{ value: 'yellow', color: '#eab308' },
-			{ value: 'green', color: '#22c55e' },
-			{ value: 'blue', color: '#3b82f6' },
-			{ value: 'purple', color: '#a855f7' },
-			{ value: 'pink', color: '#ec4899' }
-		],
-		value = $bindable('blue'),
+		options = [...ENV_COLOR_OPTIONS],
+		value = $bindable(DEFAULT_ENV_COLOR),
 		disabled = false,
 		id = `color-radio-${Math.random().toString(36).substring(2, 9)}`,
 		name = undefined,

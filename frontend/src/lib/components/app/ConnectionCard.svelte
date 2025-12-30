@@ -7,6 +7,7 @@
 	import { DeleteConfig } from '$lib/wailsjs/go/main/App';
 	import { toastStore } from '$lib/components/ui/toastComponent/toastStore';
 	import { clickOutside } from '$lib/components/ui/popoverComponents/clickOutside';
+	import { ENV_COLORS, DEFAULT_ENV_COLOR } from '$lib/core/constants';
 	
 	interface Props {
 		connection: any;
@@ -23,6 +24,8 @@
 	let menuElement = $state<HTMLElement>();
 	let buttonElement = $state<HTMLElement>();
 	let menuPosition = $state({ top: 0, left: 0 });
+	
+	const envColor = $derived(ENV_COLORS[connection.env_indicator_color as keyof typeof ENV_COLORS] || ENV_COLORS[DEFAULT_ENV_COLOR]);
 	
 	function toggleMenu() {
 		showMoreMenu = !showMoreMenu;
@@ -112,7 +115,7 @@
 	<!-- Environment Color Strip -->
 	<div
 		class="absolute bottom-0 left-0 right-0 h-1 rounded-b"
-		style="background-color: {connection.env_indicator_color || '#3b82f6'};"
+		style="background-color: {envColor};"
 	></div>
 </Card>
 <!-- Dropdown Menu (outside Card to avoid clipping) -->
