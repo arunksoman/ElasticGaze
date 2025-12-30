@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+    import { goto } from '$app/navigation';
 	import { HasDefaultConfig } from '$lib/wailsjs/go/main/App';
 	import { Button } from '$lib/components/ui/formComponents';
 	import { Alert } from '$lib/components/ui/alertComponent';
@@ -29,11 +30,6 @@
 			isChecking = false;
 		}
 	});
-	
-	function redirectToConnections() {
-		// Navigate to connections page
-		window.location.href = '/connections';
-	}
 </script>
 
 {#if !isChecking && showMessage}
@@ -48,7 +44,7 @@
 				variant="accent"
 				size="sm"
 				icon="Connection"
-				onclick={redirectToConnections}
+				onclick={() => goto('/connections')}
 			>
 				Configure Connection
 			</Button>
