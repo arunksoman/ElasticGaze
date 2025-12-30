@@ -2,7 +2,7 @@
 	import { ColorRadio, Input, Select, Checkbox, Button, PasswordField } from '$lib/components/ui/formComponents';
 	import { toastStore } from '$lib/components/ui/toastComponent/toastStore';
 	import { TestTube, Clear, Add } from '@icon-park/svg';
-	import { CreateConfig, CheckConnection } from '$lib/wailsjs/go/main/App';
+	import { CreateConfig, UpdateConfig, CheckConnection } from '$lib/wailsjs/go/main/App';
 	import type { models } from '$lib/wailsjs/go/models';
 
 	interface Props {
@@ -122,8 +122,13 @@
 				set_as_default: setAsDefault
 			};
 
-			await CreateConfig(configRequest);
-			toastStore.show('Connection saved successfully!', { type: 'success', duration: 3000 });
+			if (editMode && initialData?.id) {
+				await UpdateConfig(initialData.id, configRequest);
+				toastStore.show('Connection updated successfully!', { type: 'success', duration: 3000 });
+			} else {
+				await CreateConfig(configRequest);
+				toastStore.show('Connection saved successfully!', { type: 'success', duration: 3000 });
+			}
 			
 			if (onSave) {
 				onSave();
