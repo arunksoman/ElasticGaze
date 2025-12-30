@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { page } from '$app/state';
+	import DefaultConnectionMessage from '$lib/components/app/DefaultConnectionMessage.svelte';
 	import { Modal } from '$lib/components/ui/modalComponents';
 	import ConnectionForm from '$lib/components/app/ConnectionForm.svelte';
 	import { HasDefaultConfig } from '$lib/wailsjs/go/main/App';
@@ -46,6 +48,8 @@
 {#if !isLoading}
 	<div class="max-w-6xl ml-4 mt-4">
 		<h1 class="text-2xl font-bold text-(--color-base-content)">Dashboard</h1>
+		
+		<DefaultConnectionMessage currentPath={page.url.pathname} />
 		
 		{#if showConnectionModal}
 			<p class="mt-4 text-(--color-base-content) opacity-70">

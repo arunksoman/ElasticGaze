@@ -3,8 +3,10 @@
 	import { Modal } from '$lib/components/ui/modalComponents';
 	import { Button } from '$lib/components/ui/formComponents';
 	import ConnectionForm from '$lib/components/app/ConnectionForm.svelte';
+	import DefaultConnectionMessage from '$lib/components/app/DefaultConnectionMessage.svelte';
 	import { GetAllConfigs } from '$lib/wailsjs/go/main/App';
 	import { Plus } from '@icon-park/svg';
+	import { page } from '$app/stores';
 
 	let showConnectionModal = $state(false);
 	let connections = $state<any[]>([]);
@@ -48,6 +50,8 @@
 			Add Connection
 		</Button>
 	</div>
+	
+	<DefaultConnectionMessage currentPath={$page.url.pathname} />
 
 	{#if isLoading}
 		<p class="text-(--color-base-content) opacity-70">Loading connections...</p>
