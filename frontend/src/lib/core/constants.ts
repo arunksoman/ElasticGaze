@@ -25,3 +25,13 @@ export const ENV_COLOR_OPTIONS = [
 
 // Default environment color
 export const DEFAULT_ENV_COLOR: EnvColorKey = 'blue';
+
+// Elasticsearch cluster status colors
+export const CLUSTER_STATUS_COLORS = {
+	green: '#22c55e',
+	yellow: '#eab308',
+	red: '#ef4444'
+} as const;
+
+// Type for cluster status
+export type ClusterStatus = keyof typeof CLUSTER_STATUS_COLORS;
