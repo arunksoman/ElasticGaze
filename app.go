@@ -130,6 +130,42 @@ func (a *App) CheckConnection(req *models.ConnectionTestRequest) (*models.Connec
 	return response, nil
 }
 
+// GetClusterDashboardData retrieves comprehensive dashboard data for a specific configuration
+func (a *App) GetClusterDashboardData(configID int) (*models.ProcessedDashboardData, error) {
+	runtime.LogInfof(a.ctx, "Fetching cluster dashboard data for config ID: %d", configID)
+
+	// Get the configuration
+	config, err := a.configService.GetConfigByID(configID)
+	if err != nil {
+		runtime.LogErrorf(a.ctx, "Failed to get configuration: %v", err)
+		return nil, err
+	}
+
+	// Fetch dashboard data
+	dashboardData, err := a.esService.GetClusterDashboardData(config)
+	if err != nil {
+		runtime.LogErrorf(a.ctx, "Failed to fetch dashboard data: %v", err)
+		return nil, err
+	}
+
+	runtime.LogInfo(a.ctx, "Successfully retrieved cluster dashboard data")
+	return dashboardData, nil
+}
+
+// GetClusterHealth retrieves cluster health for a specific connection
+func (a *App) GetClusterHealth(req *models.ConnectionTestRequest) (*models.ClusterHealth, error) {
+	runtime.LogInfof(a.ctx, "Fetching cluster health for %s:%s", req.Host, req.Port)
+
+	clusterHealth, err := a.esService.GetClusterHealthByConfig(req)
+	if err != nil {
+		runtime.LogErrorf(a.ctx, "Failed to fetch cluster health: %v", err)
+		return nil, err
+	}
+
+	runtime.LogInfo(a.ctx, "Successfully retrieved cluster health")
+	return clusterHealth, nil
+}
+
 // HasDefaultConfig checks if there is a default connection configured
 func (a *App) HasDefaultConfig() (bool, error) {
 	return a.configService.HasDefaultConfig()

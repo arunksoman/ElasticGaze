@@ -22,6 +22,14 @@ export function GetAllConfigs() {
   return window['go']['main']['App']['GetAllConfigs']();
 }
 
+export function GetClusterDashboardData(arg1) {
+  return window['go']['main']['App']['GetClusterDashboardData'](arg1);
+}
+
+export function GetClusterHealth(arg1) {
+  return window['go']['main']['App']['GetClusterHealth'](arg1);
+}
+
 export function GetConfigByID(arg1) {
   return window['go']['main']['App']['GetConfigByID'](arg1);
 }
