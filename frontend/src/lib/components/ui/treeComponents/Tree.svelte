@@ -22,6 +22,7 @@
 		ondrop?: (event: TreeDropEvent) => void;
 		onkeydown?: (event: KeyboardEvent) => void;
 		onnodeschange?: (nodes: TreeNodeItem[]) => void;
+		oncontextmenu?: (event: MouseEvent, nodeId: string) => void;
 		empty?: import('svelte').Snippet;
 	}
 
@@ -46,15 +47,23 @@
 		ondrop,
 		onkeydown,
 		onnodeschange,
+		oncontextmenu,
 		empty
 	}: TreeProps = $props();
 
-	const store = createTreeStore(nodes);
+	const store = createTreeStore([]);
 	let containerElement: HTMLDivElement;
 	let lastEmittedNodes: TreeNodeItem[] | null = null;
 
 	const storeState = $derived($store);
 	const displayNodes = $derived(storeState.nodes);
+
+	// Update store when nodes prop changes
+	$effect(() => {
+		if (JSON.stringify(nodes) !== JSON.stringify(storeState.nodes)) {
+			store.setNodes(nodes);
+		}
+	});
 
 	// Notify parent when nodes change internally (from store operations)
 	$effect(() => {
@@ -387,6 +396,7 @@
 				{icons}
 				{draggable}
 				{store}
+				{oncontextmenu}
 			/>
 		{/each}
 	{/if}
@@ -394,17 +404,7 @@
 
 <style>
 	.tree-container {
-		background-color: var(--color-base-100);
-		color: var(--color-base-content);
-		border: var(--border) solid var(--color-base-300);
-		border-radius: var(--radius-box);
-		overflow: auto;
-		min-height: 10rem;
 		outline: none;
-	}
-
-	.tree-container:focus-within {
-		border-color: var(--color-primary);
 	}
 
 	.tree-empty {
@@ -412,8 +412,8 @@
 		align-items: center;
 		justify-content: center;
 		padding: 2rem;
-		color: var(--color-neutral-content);
-		opacity: 0.7;
+		color: var(--color-base-content);
+		opacity: 0.6;
 	}
 
 	.tree-empty p {

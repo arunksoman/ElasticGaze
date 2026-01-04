@@ -13,6 +13,7 @@
 		icons: TreeIcons;
 		draggable?: boolean;
 		store: TreeStore;
+		oncontextmenu?: (event: MouseEvent, nodeId: string) => void;
 	}
 
 	let {
@@ -23,7 +24,8 @@
 		customItemClass = '',
 		icons,
 		draggable = true,
-		store
+		store,
+		oncontextmenu
 	}: TreeNodeProps = $props();
 
 	let editValue = $state(node.name);
@@ -77,10 +79,10 @@
 
 		// Otherwise, use IconPark
 		if (iconName === 'FolderOpen') {
-			return FolderOpen({ theme: 'outline', size: '1.25rem' });
+			return FolderOpen({ theme: 'outline', size: '1rem' });
 		}
 		if (iconName === 'FolderClose') {
-			return FolderClose({ theme: 'outline', size: '1.25rem' });
+			return FolderClose({ theme: 'outline', size: '1rem' });
 		}
 
 		// Fallback
@@ -96,8 +98,14 @@
 
 	function handleNodeClick(e: MouseEvent) {
 		e.stopPropagation();
-		const multiSelect = e.ctrlKey || e.metaKey;
-		store.selectNode(node.id, multiSelect);
+		if (isContainer) {
+			// For containers (collections/folders), toggle expand/collapse
+			store.toggleExpand(node.id);
+		} else {
+			// For non-containers (requests), select them
+			const multiSelect = e.ctrlKey || e.metaKey;
+			store.selectNode(node.id, multiSelect);
+		}
 		store.setFocus(node.id);
 	}
 
@@ -171,6 +179,12 @@
 		if (!draggable) return;
 		store.endDrag();
 	}
+
+	function handleContextMenu(e: MouseEvent) {
+		e.preventDefault();
+		e.stopPropagation();
+		oncontextmenu?.(e, node.id);
+	}
 </script>
 
 <div
@@ -192,6 +206,7 @@
 	ondragend={handleDragEnd}
 	onclick={handleNodeClick}
 	ondblclick={handleDoubleClick}
+	oncontextmenu={handleContextMenu}
 	onkeydown={(e) => {
 		if (e.key === 'Enter' || e.key === ' ') {
 			e.preventDefault();
@@ -223,7 +238,7 @@
 				onkeydown={handleKeyDown}
 			/>
 		{:else}
-			<span class="node-label">{node.name}</span>
+			<span class="node-label">{@html node.name}</span>
 		{/if}
 	</div>
 </div>
@@ -240,6 +255,7 @@
 				{icons}
 				{draggable}
 				{store}
+				{oncontextmenu}
 			/>
 		{/each}
 	</div>
@@ -258,22 +274,22 @@
 	}
 
 	.tree-node:hover {
-		background-color: var(--color-base-200);
+		background-color: rgba(255, 255, 255, 0.05);
 	}
 
 	.tree-node.selected {
-		background-color: var(--color-primary);
-		color: var(--color-primary-content);
+		background-color: rgba(255, 255, 255, 0.08);
 	}
 
 	.tree-node.focused {
-		outline: 2px solid var(--color-accent);
-		outline-offset: -2px;
+		outline: 1px solid var(--color-base-content);
+		outline-offset: -1px;
+		opacity: 0.8;
 	}
 
 	.tree-node.drag-target {
-		background-color: var(--color-accent);
-		color: var(--color-accent-content);
+		background-color: rgba(255, 255, 255, 0.1);
+		border-left: 2px solid var(--color-base-content);
 	}
 
 	.node-content {
@@ -292,9 +308,10 @@
 		background: transparent;
 		border: none;
 		cursor: pointer;
-		color: var(--color-accent);
+		color: var(--color-base-content);
 		border-radius: var(--radius-field);
 		transition: background-color 0.15s ease;
+		opacity: 0.7;
 	}
 
 	.icon-button:hover {
@@ -302,14 +319,14 @@
 	}
 
 	.icon-button :global(svg) {
-		width: 1.25rem;
-		height: 1.25rem;
+		width: 1rem;
+		height: 1rem;
 		display: block;
 	}
 
 	.icon-spacer {
-		width: 1.75rem;
-		height: 1.25rem;
+		width: 1.5rem;
+		height: 1rem;
 		display: inline-block;
 	}
 
