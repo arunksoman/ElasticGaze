@@ -187,14 +187,22 @@
 	async function handleRename(event: TreeRenameEvent) {
 		const [type, id] = event.id.split('-');
 		const numericId = parseInt(id);
-		const newName = event.name.trim();
+		
+		// Extract plain text from HTML (for requests with method colors)
+		const tempDiv = document.createElement('div');
+		tempDiv.innerHTML = event.name;
+		const newName = tempDiv.textContent?.trim() || '';
 
 		if (!newName) {
 			showToast({ type: 'warning', message: 'Name cannot be empty' });
+			await loadCollections();
 			return;
 		}
 
 		try {
+			const node = nodeDataMap.get(event.id);
+			if (!node) return;
+
 			if (type === 'collection') {
 				const req = new models.UpdateCollectionRequest();
 				req.name = newName;
@@ -206,6 +214,8 @@
 			} else if (type === 'request') {
 				const req = new models.UpdateRequestRequest();
 				req.name = newName;
+				req.method = node.method;
+				req.url = node.url;
 				await UpdateRequest(numericId, req);
 			}
 
@@ -217,6 +227,7 @@
 				message: 'Failed to rename',
 				description: error.message
 			});
+			await loadCollections();
 		}
 	}
 

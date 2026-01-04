@@ -55,6 +55,19 @@
 	let containerElement: HTMLDivElement;
 	let lastEmittedNodes: TreeNodeItem[] | null = null;
 
+	// Wrap store to intercept rename calls
+	const wrappedStore = {
+		...store,
+		renameNode: (id: string, newName: string, callback?: (id: string, newName: string, oldName: string) => void) => {
+			const node = store.findNode(id);
+			const oldName = node?.name || '';
+			store.renameNode(id, newName, (nodeId, name, old) => {
+				onrename?.({ id: nodeId, name, oldName: old });
+				callback?.(nodeId, name, old);
+			});
+		}
+	};
+
 	const storeState = $derived($store);
 	const displayNodes = $derived(storeState.nodes);
 
@@ -327,12 +340,9 @@
 	}
 
 	export function renameNode(id: string, name: string) {
-		const node = store.findNode(id);
-		const oldName = node?.name;
-		store.renameNode(id, name);
-		if (node) {
-			onrename?.({ id, name, oldName });
-		}
+		store.renameNode(id, name, (nodeId, newName, oldName) => {
+			onrename?.({ id: nodeId, name: newName, oldName });
+		});
 	}
 
 	export function createNode(parentId: string | null, node: TreeNodeItem) {
@@ -395,7 +405,7 @@
 				{customItemClass}
 				{icons}
 				{draggable}
-				{store}
+				store={wrappedStore}
 				{oncontextmenu}
 			/>
 		{/each}

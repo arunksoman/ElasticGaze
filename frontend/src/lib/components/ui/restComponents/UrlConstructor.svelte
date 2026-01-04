@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { restStore, activeTab, type QueryParam } from './restStore';
+	import { restStore, activeTab, methodColors, type QueryParam } from './restStore';
 	import { GetDefaultConfig } from '$lib/wailsjs/go/main/App';
 	import { onMount } from 'svelte';
 	import type { models } from '$lib/wailsjs/go/models';
@@ -98,10 +98,10 @@
 			<select
 				value={tab?.method || 'GET'}
 				onchange={(e) => handleMethodChange((e.target as HTMLSelectElement).value)}
-				class="w-full px-3 py-2 bg-(--color-base-200) text-(--color-base-content) border border-(--color-base-300) rounded focus:outline-none focus:ring-2 focus:ring-(--color-primary) text-sm font-semibold"
+				class="w-full px-3 py-2 bg-(--color-base-200) text-(--color-base-content) border border-(--color-base-300) rounded focus:outline-none focus:ring-2 focus:ring-(--color-primary) text-sm font-semibold method-select"
 			>
 				{#each httpMethods as method}
-					<option value={method}>{method}</option>
+					<option value={method} style="color: {methodColors[method]}; font-weight: 600;">{method}</option>
 				{/each}
 			</select>
 		</div>
@@ -134,11 +134,16 @@
 </div>
 
 <style>
-	select {
+	select.method-select {
 		appearance: none;
 		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
 		background-repeat: no-repeat;
 		background-position: right 8px center;
 		padding-right: 28px;
+	}
+	
+	option {
+		background-color: var(--color-base-200);
+		padding: 8px;
 	}
 </style>

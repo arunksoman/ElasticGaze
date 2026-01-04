@@ -40,7 +40,7 @@ export interface RestState {
 
 // Initial state
 const initialState: RestState = {
-	secondarySidebarOpen: true,
+	secondarySidebarOpen: false,
 	activeTabs: [],
 	activeTabId: null,
 	responses: new Map(),
@@ -269,15 +269,15 @@ function parseQueryParams(url: string): QueryParam[] {
 	}
 }
 
-// HTTP method colors
+// HTTP method colors (hex values)
 export const methodColors: Record<string, string> = {
-	GET: 'text-green-500',
-	POST: 'text-yellow-500',
-	PUT: 'text-blue-500',
-	DELETE: 'text-red-500',
-	PATCH: 'text-purple-500',
-	HEAD: 'text-gray-500',
-	OPTIONS: 'text-gray-500'
+	GET: '#22c55e',
+	POST: '#eab308',
+	PUT: '#3b82f6',
+	DELETE: '#ef4444',
+	PATCH: '#a855f7',
+	HEAD: '#64748b',
+	OPTIONS: '#64748b'
 };
 
 export const methodBgColors: Record<string, string> = {

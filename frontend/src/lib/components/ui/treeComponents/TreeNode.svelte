@@ -118,7 +118,9 @@
 
 	function finishEditing() {
 		if (isEditing && editValue.trim() !== '' && editValue !== node.name) {
-			store.renameNode(node.id, editValue.trim());
+			store.renameNode(node.id, editValue.trim(), (id, newName, oldName) => {
+				// Callback is handled by Tree component
+			});
 		} else {
 			store.stopEditing();
 		}
@@ -342,16 +344,16 @@
 		padding: 0.25rem 0.5rem;
 		background-color: var(--color-base-200);
 		color: var(--color-base-content);
-		border: var(--border) solid var(--color-primary);
+		border: 1px solid var(--color-base-content);
 		border-radius: var(--radius-field);
 		outline: none;
 		font-size: inherit;
 		font-family: inherit;
+		opacity: 0.8;
 	}
 
 	.node-input:focus {
-		border-color: var(--color-accent);
-		box-shadow: 0 0 0 2px var(--color-accent);
+		opacity: 1;
 	}
 
 	[role='group'] {

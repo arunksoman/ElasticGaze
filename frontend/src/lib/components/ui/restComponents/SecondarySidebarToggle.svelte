@@ -13,7 +13,7 @@
 {#if isRestPage && !storeState.secondarySidebarOpen}
 	<button
 		class="fixed z-50 bg-(--color-base-200) border border-(--color-base-300) rounded-r-lg p-2 hover:bg-(--color-base-300) transition-all duration-300 shadow-lg"
-		style="left: {leftPosition}; top: calc(50% + 0.875rem);"
+		style="left: {leftPosition}; top: calc(7% + 0.875rem);"
 		onclick={() => restStore.toggleSecondarySidebar()}
 		title="Open collections sidebar"
 	>

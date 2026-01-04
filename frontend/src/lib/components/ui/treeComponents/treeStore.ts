@@ -291,12 +291,14 @@ export function createTreeStore(initialNodes: TreeNodeItem[] = []) {
 	/**
 	 * Rename a node
 	 */
-	function renameNode(id: string, newName: string) {
+	function renameNode(id: string, newName: string, onrename?: (id: string, newName: string, oldName: string) => void) {
 		update((state) => {
 			const nodes = JSON.parse(JSON.stringify(state.nodes));
 			const node = findNode(nodes, id);
 			if (node) {
+				const oldName = node.name;
 				node.name = newName;
+				onrename?.(id, newName, oldName);
 			}
 			return { ...state, nodes, editingId: null };
 		});
