@@ -16,8 +16,14 @@
 	// Store mapping of tree node IDs to original node data
 	let nodeDataMap = $state<Map<string, models.CollectionTreeNode>>(new Map());
 
-	onMount(async () => {
-		await loadCollections();
+	onMount(() => {
+		loadCollections();
+		
+		// Register callback to reload collections when requests are saved
+		const unsubscribe = restStore.onCollectionsReload(loadCollections);
+		
+		// Cleanup on unmount
+		return unsubscribe;
 	});
 
 	// Convert CollectionTreeNode to TreeNodeItem
@@ -174,6 +180,13 @@
 		} catch (error: any) {
 			showToast({ type: 'error', message: 'Failed to create request', description: error.message });
 		}
+		closeContextMenu();
+	}
+
+	function handleRenameNode() {
+		if (!contextMenuNode || !treeComponent) return;
+		// Start editing mode for the selected node
+		treeComponent.startEditing(contextMenuNode.id);
 		closeContextMenu();
 	}
 
@@ -478,6 +491,11 @@
 			</button>
 			<div class="context-menu-divider" role="separator"></div>
 		{/if}
+		<button class="context-menu-item" role="menuitem" onclick={handleRenameNode}>
+			{@html Edit({ theme: 'outline', size: '14' })}
+			<span>Rename</span>
+		</button>
+		<div class="context-menu-divider" role="separator"></div>
 		<button class="context-menu-item danger" role="menuitem" onclick={handleDeleteNode}>
 			{@html Delete({ theme: 'outline', size: '14' })}
 			<span>Delete</span>

@@ -349,6 +349,10 @@
 		});
 	}
 
+	export function startEditing(id: string) {
+		store.startEditing(id);
+	}
+
 	export function createNode(parentId: string | null, node: TreeNodeItem) {
 		store.createNode(parentId, node);
 		oncreate?.({ parentId, node });
@@ -411,6 +415,7 @@
 				{draggable}
 				store={wrappedStore}
 				{oncontextmenu}
+				onselect={(event) => onselect?.(event)}
 			/>
 		{/each}
 	{/if}

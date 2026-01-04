@@ -14,6 +14,7 @@
 		draggable?: boolean;
 		store: TreeStore;
 		oncontextmenu?: (event: MouseEvent, nodeId: string) => void;
+		onselect?: (event: { node: TreeNodeItem }) => void;
 	}
 
 	let {
@@ -25,7 +26,8 @@
 		icons,
 		draggable = true,
 		store,
-		oncontextmenu
+		oncontextmenu,
+		onselect
 	}: TreeNodeProps = $props();
 
 	let editValue = $state(node.name);
@@ -129,18 +131,13 @@
 			// For containers (collections/folders), toggle expand/collapse
 			store.toggleExpand(node.id);
 		} else {
-			// For non-containers (requests), select them
+			// For non-containers (requests), select them and trigger callback
 			const multiSelect = e.ctrlKey || e.metaKey;
 			store.selectNode(node.id, multiSelect);
+			// Trigger onselect callback to open the request
+			onselect?.({ node });
 		}
 		store.setFocus(node.id);
-	}
-
-	function handleDoubleClick(e: MouseEvent) {
-		e.stopPropagation();
-		if (node.editable !== false) {
-			store.startEditing(node.id);
-		}
 	}
 
 	function finishEditing() {
@@ -236,7 +233,6 @@
 	ondrop={handleDrop}
 	ondragend={handleDragEnd}
 	onclick={handleNodeClick}
-	ondblclick={handleDoubleClick}
 	oncontextmenu={handleContextMenu}
 	onkeydown={(e) => {
 		// Don't handle keyboard shortcuts when editing
@@ -293,6 +289,7 @@
 				{draggable}
 				{store}
 				{oncontextmenu}
+				{onselect}
 			/>
 		{/each}
 	</div>

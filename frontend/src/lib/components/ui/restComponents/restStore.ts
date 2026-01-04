@@ -51,6 +51,9 @@ const initialState: RestState = {
 // Create store
 function createRestStore() {
 	const { subscribe, set, update } = writable<RestState>(initialState);
+	
+	// Callbacks for collection reload events
+	let collectionsReloadCallbacks: (() => void)[] = [];
 
 	return {
 		subscribe,
@@ -83,6 +86,18 @@ function createRestStore() {
 				...state,
 				defaultConfigId: configId
 			}));
+		},
+		
+		// Collections reload callbacks
+		onCollectionsReload: (callback: () => void) => {
+			collectionsReloadCallbacks.push(callback);
+			return () => {
+				collectionsReloadCallbacks = collectionsReloadCallbacks.filter(cb => cb !== callback);
+			};
+		},
+		
+		triggerCollectionsReload: () => {
+			collectionsReloadCallbacks.forEach(callback => callback());
 		},
 		
 		// Tab actions

@@ -103,6 +103,9 @@
 			await UpdateRequest(tab.requestId, req);
 			restStore.markTabClean(tab.id);
 			
+			// Trigger collections reload to update tree view
+			restStore.triggerCollectionsReload();
+			
 			showToast({
 				type: 'success',
 				message: 'Request saved successfully'
