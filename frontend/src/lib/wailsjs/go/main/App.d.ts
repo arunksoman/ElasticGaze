@@ -24,6 +24,8 @@ export function DeleteRequest(arg1:number):Promise<void>;
 
 export function EnsureDefaultCollection():Promise<models.Collection>;
 
+export function ExecuteRestRequest(arg1:number,arg2:models.ElasticsearchRestRequest):Promise<models.ElasticsearchRestResponse>;
+
 export function GetAllCollectionTrees():Promise<Array<models.CollectionTreeNode>>;
 
 export function GetAllCollections():Promise<Array<models.Collection>>;

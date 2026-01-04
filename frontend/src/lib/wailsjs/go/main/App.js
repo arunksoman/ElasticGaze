@@ -46,6 +46,10 @@ export function EnsureDefaultCollection() {
   return window['go']['main']['App']['EnsureDefaultCollection']();
 }
 
+export function ExecuteRestRequest(arg1, arg2) {
+  return window['go']['main']['App']['ExecuteRestRequest'](arg1, arg2);
+}
+
 export function GetAllCollectionTrees() {
   return window['go']['main']['App']['GetAllCollectionTrees']();
 }

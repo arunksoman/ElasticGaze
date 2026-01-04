@@ -176,6 +176,33 @@ func (a *App) GetClusterHealth(req *models.ConnectionTestRequest) (*models.Clust
 	return clusterHealth, nil
 }
 
+// ExecuteRestRequest executes a generic REST request to Elasticsearch
+func (a *App) ExecuteRestRequest(configID int, req *models.ElasticsearchRestRequest) (*models.ElasticsearchRestResponse, error) {
+	runtime.LogInfof(a.ctx, "Executing REST request: %s %s", req.Method, req.Endpoint)
+
+	// Get the configuration
+	config, err := a.configService.GetConfigByID(configID)
+	if err != nil {
+		runtime.LogErrorf(a.ctx, "Failed to get configuration: %v", err)
+		return nil, err
+	}
+
+	// Execute the REST request
+	response, err := a.esService.ExecuteRestRequest(config, req)
+	if err != nil {
+		runtime.LogErrorf(a.ctx, "Failed to execute REST request: %v", err)
+		return nil, err
+	}
+
+	if response.Success {
+		runtime.LogInfo(a.ctx, "REST request completed successfully")
+	} else {
+		runtime.LogWarningf(a.ctx, "REST request failed with status %d", response.StatusCode)
+	}
+
+	return response, nil
+}
+
 // Collections Management API Methods
 
 // CreateCollection creates a new collection

@@ -11,7 +11,8 @@ type ElasticsearchRestRequest struct {
 type ElasticsearchRestResponse struct {
 	Success      bool   `json:"success"`
 	StatusCode   int    `json:"status_code"`
-	Response     string `json:"response"` // The actual Elasticsearch response as JSON string
+	Response     string `json:"response"`           // The actual Elasticsearch response as JSON string
+	Duration     string `json:"duration,omitempty"` // Time taken for the request (e.g., "250ms" or "1.5s")
 	ErrorDetails string `json:"error_details,omitempty"`
 	ErrorCode    string `json:"error_code,omitempty"`
 }
