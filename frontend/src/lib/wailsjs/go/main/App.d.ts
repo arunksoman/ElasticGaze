@@ -6,9 +6,27 @@ export function CheckConnection(arg1:models.ConnectionTestRequest):Promise<model
 
 export function Close():Promise<void>;
 
+export function CreateCollection(arg1:models.CreateCollectionRequest):Promise<models.Collection>;
+
 export function CreateConfig(arg1:models.CreateConfigRequest):Promise<models.Config>;
 
+export function CreateFolder(arg1:models.CreateFolderRequest):Promise<models.Folder>;
+
+export function CreateRequest(arg1:models.CreateRequestRequest):Promise<models.Request>;
+
+export function DeleteCollection(arg1:number):Promise<void>;
+
 export function DeleteConfig(arg1:number):Promise<void>;
+
+export function DeleteFolder(arg1:number):Promise<void>;
+
+export function DeleteRequest(arg1:number):Promise<void>;
+
+export function EnsureDefaultCollection():Promise<models.Collection>;
+
+export function GetAllCollectionTrees():Promise<Array<models.CollectionTreeNode>>;
+
+export function GetAllCollections():Promise<Array<models.Collection>>;
 
 export function GetAllConfigs():Promise<Array<models.Config>>;
 
@@ -16,10 +34,30 @@ export function GetClusterDashboardData(arg1:number):Promise<models.ProcessedDas
 
 export function GetClusterHealth(arg1:models.ConnectionTestRequest):Promise<models.ClusterHealth>;
 
+export function GetCollectionByID(arg1:number):Promise<models.Collection>;
+
+export function GetCollectionTree(arg1:number):Promise<models.CollectionTreeNode>;
+
 export function GetConfigByID(arg1:number):Promise<models.Config>;
 
 export function GetDefaultConfig():Promise<models.Config>;
 
+export function GetFolderByID(arg1:number):Promise<models.Folder>;
+
+export function GetFoldersByCollectionID(arg1:number):Promise<Array<models.Folder>>;
+
+export function GetRequestByID(arg1:number):Promise<models.Request>;
+
+export function GetRequestsByCollectionID(arg1:number):Promise<Array<models.Request>>;
+
+export function GetRequestsByFolderID(arg1:number):Promise<Array<models.Request>>;
+
 export function HasDefaultConfig():Promise<boolean>;
 
+export function UpdateCollection(arg1:number,arg2:models.UpdateCollectionRequest):Promise<models.Collection>;
+
 export function UpdateConfig(arg1:number,arg2:models.UpdateConfigRequest):Promise<models.Config>;
+
+export function UpdateFolder(arg1:number,arg2:models.UpdateFolderRequest):Promise<models.Folder>;
+
+export function UpdateRequest(arg1:number,arg2:models.UpdateRequestRequest):Promise<models.Request>;

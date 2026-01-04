@@ -26,7 +26,7 @@ import { linter, lintKeymap } from '@codemirror/lint';
 import { defaultKeymap, history, historyKeymap, indentWithTab } from '@codemirror/commands';
 import { bracketMatching, foldGutter, foldKeymap, indentOnInput, syntaxHighlighting, defaultHighlightStyle } from '@codemirror/language';
 import { searchKeymap } from '@codemirror/search';
-import { darkTheme, lightTheme, jsonSyntaxHighlighting } from './themes';
+import { darkTheme, lightTheme, cobaltSyntaxHighlighting, duotoneLightSyntaxHighlighting } from './themes';
 
 export interface UseCodeMirrorOptions {
 	parent: HTMLElement;
@@ -75,9 +75,8 @@ export function createCodeMirrorEditor(options: UseCodeMirrorOptions): EditorVie
 		json(),
 		linter(jsonParseLinter()),
 		
-		// Syntax highlighting
-		syntaxHighlighting(defaultHighlightStyle),
-		jsonSyntaxHighlighting,
+		// Syntax highlighting - use theme-specific highlighting
+		theme === 'dark' ? cobaltSyntaxHighlighting : duotoneLightSyntaxHighlighting,
 		
 		// Basic editing
 		history(),

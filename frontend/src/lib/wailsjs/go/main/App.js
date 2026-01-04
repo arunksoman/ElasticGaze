@@ -10,12 +10,48 @@ export function Close() {
   return window['go']['main']['App']['Close']();
 }
 
+export function CreateCollection(arg1) {
+  return window['go']['main']['App']['CreateCollection'](arg1);
+}
+
 export function CreateConfig(arg1) {
   return window['go']['main']['App']['CreateConfig'](arg1);
 }
 
+export function CreateFolder(arg1) {
+  return window['go']['main']['App']['CreateFolder'](arg1);
+}
+
+export function CreateRequest(arg1) {
+  return window['go']['main']['App']['CreateRequest'](arg1);
+}
+
+export function DeleteCollection(arg1) {
+  return window['go']['main']['App']['DeleteCollection'](arg1);
+}
+
 export function DeleteConfig(arg1) {
   return window['go']['main']['App']['DeleteConfig'](arg1);
+}
+
+export function DeleteFolder(arg1) {
+  return window['go']['main']['App']['DeleteFolder'](arg1);
+}
+
+export function DeleteRequest(arg1) {
+  return window['go']['main']['App']['DeleteRequest'](arg1);
+}
+
+export function EnsureDefaultCollection() {
+  return window['go']['main']['App']['EnsureDefaultCollection']();
+}
+
+export function GetAllCollectionTrees() {
+  return window['go']['main']['App']['GetAllCollectionTrees']();
+}
+
+export function GetAllCollections() {
+  return window['go']['main']['App']['GetAllCollections']();
 }
 
 export function GetAllConfigs() {
@@ -30,6 +66,14 @@ export function GetClusterHealth(arg1) {
   return window['go']['main']['App']['GetClusterHealth'](arg1);
 }
 
+export function GetCollectionByID(arg1) {
+  return window['go']['main']['App']['GetCollectionByID'](arg1);
+}
+
+export function GetCollectionTree(arg1) {
+  return window['go']['main']['App']['GetCollectionTree'](arg1);
+}
+
 export function GetConfigByID(arg1) {
   return window['go']['main']['App']['GetConfigByID'](arg1);
 }
@@ -38,10 +82,42 @@ export function GetDefaultConfig() {
   return window['go']['main']['App']['GetDefaultConfig']();
 }
 
+export function GetFolderByID(arg1) {
+  return window['go']['main']['App']['GetFolderByID'](arg1);
+}
+
+export function GetFoldersByCollectionID(arg1) {
+  return window['go']['main']['App']['GetFoldersByCollectionID'](arg1);
+}
+
+export function GetRequestByID(arg1) {
+  return window['go']['main']['App']['GetRequestByID'](arg1);
+}
+
+export function GetRequestsByCollectionID(arg1) {
+  return window['go']['main']['App']['GetRequestsByCollectionID'](arg1);
+}
+
+export function GetRequestsByFolderID(arg1) {
+  return window['go']['main']['App']['GetRequestsByFolderID'](arg1);
+}
+
 export function HasDefaultConfig() {
   return window['go']['main']['App']['HasDefaultConfig']();
 }
 
+export function UpdateCollection(arg1, arg2) {
+  return window['go']['main']['App']['UpdateCollection'](arg1, arg2);
+}
+
 export function UpdateConfig(arg1, arg2) {
   return window['go']['main']['App']['UpdateConfig'](arg1, arg2);
+}
+
+export function UpdateFolder(arg1, arg2) {
+  return window['go']['main']['App']['UpdateFolder'](arg1, arg2);
+}
+
+export function UpdateRequest(arg1, arg2) {
+  return window['go']['main']['App']['UpdateRequest'](arg1, arg2);
 }

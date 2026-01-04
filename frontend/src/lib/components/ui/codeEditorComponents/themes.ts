@@ -1,8 +1,7 @@
 /**
  * CodeMirror Theme Definitions for ElasticGaze
  * 
- * Maps app theme variables to CodeMirror theme extensions.
- * Supports dark and light themes that automatically sync with the app theme.
+ * Uses cobalt theme for dark mode and duotone-light for light mode.
  */
 
 import { EditorView } from '@codemirror/view';
@@ -10,79 +9,70 @@ import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { tags as t } from '@lezer/highlight';
 
 /**
- * Get computed CSS variable value from root
- */
-function getCSSVar(name: string): string {
-	return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-}
-
-/**
- * Dark theme for CodeMirror
- * Uses CSS variables from app.css dark theme (:root)
+ * Dark theme - Cobalt
+ * A classic blue/dark theme with excellent contrast
  */
 export const darkTheme = EditorView.theme(
 	{
 		'&': {
 			backgroundColor: 'var(--color-base-100)',
-			color: 'var(--color-base-content)',
+			color: '#FFFFFF',
 			height: '100%',
 		},
 		'.cm-content': {
-			caretColor: 'var(--color-accent)',
+			caretColor: '#FFCC00',
 			fontFamily: "'Consolas', 'Monaco', 'Courier New', monospace",
 			fontSize: '13px',
 			lineHeight: '1.6',
 		},
 		'.cm-cursor, .cm-dropCursor': {
-			borderLeftColor: 'var(--color-accent)',
+			borderLeftColor: '#FFCC00',
 			borderLeftWidth: '2px',
 		},
 		'&.cm-focused .cm-cursor': {
-			borderLeftColor: 'var(--color-accent)',
+			borderLeftColor: '#FFCC00',
 		},
 		'&.cm-focused .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection': {
-			backgroundColor: 'var(--color-primary)',
-			opacity: '0.3',
+			backgroundColor: '#0050A4',
 		},
 		'.cm-activeLine': {
 			backgroundColor: 'var(--color-base-200)',
 		},
 		'.cm-selectionMatch': {
-			backgroundColor: 'var(--color-secondary)',
-			opacity: '0.2',
+			backgroundColor: '#0066BB',
 		},
-		'&.cm-focused .cm-matchingBracket, &.cm-focused .cm-nonmatchingBracket': {
-			backgroundColor: 'var(--color-accent)',
-			opacity: '0.15',
+		'&.cm-focused .cm-matchingBracket': {
+			backgroundColor: '#0050A4',
+			outline: '1px solid #0088FF',
+		},
+		'&.cm-focused .cm-nonmatchingBracket': {
+			backgroundColor: '#800F00',
 		},
 		'.cm-gutters': {
 			backgroundColor: 'var(--color-base-200)',
-			color: 'var(--color-base-content)',
+			color: '#0088FF',
 			border: 'none',
-			opacity: '0.6',
 		},
 		'.cm-activeLineGutter': {
 			backgroundColor: 'var(--color-base-300)',
-			opacity: '1',
 		},
 		'.cm-foldPlaceholder': {
-			backgroundColor: 'var(--color-base-300)',
-			border: '1px solid var(--color-base-content)',
-			color: 'var(--color-base-content)',
-			opacity: '0.5',
+			backgroundColor: '#0050A4',
+			border: '1px solid #0088FF',
+			color: '#FFFFFF',
 		},
 		'.cm-tooltip': {
-			border: '1px solid var(--color-base-300)',
+			border: '1px solid #0088FF',
 			backgroundColor: 'var(--color-base-100)',
-			color: 'var(--color-base-content)',
+			color: '#FFFFFF',
 		},
 		'.cm-tooltip-autocomplete': {
 			'& > ul': {
 				fontFamily: "'Consolas', 'Monaco', 'Courier New', monospace",
 			},
 			'& > ul > li[aria-selected]': {
-				backgroundColor: 'var(--color-primary)',
-				color: 'var(--color-primary-content)',
+				backgroundColor: '#0050A4',
+				color: '#FFFFFF',
 			},
 		},
 		'.cm-line': {
@@ -91,7 +81,6 @@ export const darkTheme = EditorView.theme(
 		'&.cm-focused': {
 			outline: 'none',
 		},
-		// Readonly styles
 		'&.cm-readonly': {
 			backgroundColor: 'var(--color-base-200)',
 			opacity: '0.9',
@@ -104,72 +93,70 @@ export const darkTheme = EditorView.theme(
 );
 
 /**
- * Light theme for CodeMirror
- * Uses CSS variables from app.css light theme (.light-theme)
+ * Light theme - Duotone Light
+ * A clean, minimalist light theme with purple accents
  */
 export const lightTheme = EditorView.theme(
 	{
 		'&': {
 			backgroundColor: 'var(--color-base-100)',
-			color: 'var(--color-base-content)',
+			color: '#728FCE',
 			height: '100%',
 		},
 		'.cm-content': {
-			caretColor: 'var(--color-accent)',
+			caretColor: '#93ABDC',
 			fontFamily: "'Consolas', 'Monaco', 'Courier New', monospace",
 			fontSize: '13px',
 			lineHeight: '1.6',
 		},
 		'.cm-cursor, .cm-dropCursor': {
-			borderLeftColor: 'var(--color-accent)',
+			borderLeftColor: '#93ABDC',
 			borderLeftWidth: '2px',
 		},
 		'&.cm-focused .cm-cursor': {
-			borderLeftColor: 'var(--color-accent)',
+			borderLeftColor: '#93ABDC',
 		},
 		'&.cm-focused .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection': {
-			backgroundColor: 'var(--color-primary)',
-			opacity: '0.2',
+			backgroundColor: '#E3DEDD',
 		},
 		'.cm-activeLine': {
 			backgroundColor: 'var(--color-base-200)',
 		},
 		'.cm-selectionMatch': {
-			backgroundColor: 'var(--color-secondary)',
-			opacity: '0.15',
+			backgroundColor: '#E3DEDD',
 		},
-		'&.cm-focused .cm-matchingBracket, &.cm-focused .cm-nonmatchingBracket': {
-			backgroundColor: 'var(--color-accent)',
-			opacity: '0.15',
+		'&.cm-focused .cm-matchingBracket': {
+			backgroundColor: '#E3DEDD',
+			outline: '1px solid #B8AFE6',
+		},
+		'&.cm-focused .cm-nonmatchingBracket': {
+			backgroundColor: '#FFDDDD',
 		},
 		'.cm-gutters': {
 			backgroundColor: 'var(--color-base-200)',
-			color: 'var(--color-base-content)',
+			color: '#B8AFE6',
 			border: 'none',
-			opacity: '0.6',
 		},
 		'.cm-activeLineGutter': {
 			backgroundColor: 'var(--color-base-300)',
-			opacity: '1',
 		},
 		'.cm-foldPlaceholder': {
-			backgroundColor: 'var(--color-base-300)',
-			border: '1px solid var(--color-base-content)',
-			color: 'var(--color-base-content)',
-			opacity: '0.5',
+			backgroundColor: '#E3DEDD',
+			border: '1px solid #B8AFE6',
+			color: '#728FCE',
 		},
 		'.cm-tooltip': {
-			border: '1px solid var(--color-base-300)',
+			border: '1px solid #E3DEDD',
 			backgroundColor: 'var(--color-base-100)',
-			color: 'var(--color-base-content)',
+			color: '#728FCE',
 		},
 		'.cm-tooltip-autocomplete': {
 			'& > ul': {
 				fontFamily: "'Consolas', 'Monaco', 'Courier New', monospace",
 			},
 			'& > ul > li[aria-selected]': {
-				backgroundColor: 'var(--color-primary)',
-				color: 'var(--color-primary-content)',
+				backgroundColor: '#E3DEDD',
+				color: '#728FCE',
 			},
 		},
 		'.cm-line': {
@@ -178,7 +165,6 @@ export const lightTheme = EditorView.theme(
 		'&.cm-focused': {
 			outline: 'none',
 		},
-		// Readonly styles
 		'&.cm-readonly': {
 			backgroundColor: 'var(--color-base-200)',
 			opacity: '0.9',
@@ -191,22 +177,50 @@ export const lightTheme = EditorView.theme(
 );
 
 /**
- * JSON syntax highlighting colors
- * Uses theme-aware CSS variables and Lezer tags
+ * Cobalt syntax highlighting (dark theme)
  */
-export const jsonSyntaxHighlighting = syntaxHighlighting(
+const cobaltSyntaxHighlighting = syntaxHighlighting(
 	HighlightStyle.define([
-		{ tag: t.propertyName, color: 'var(--color-info)' },
-		{ tag: t.string, color: 'var(--color-success)' },
-		{ tag: t.number, color: 'var(--color-warning)' },
-		{ tag: t.bool, color: 'var(--color-secondary)', fontWeight: 'bold' },
-		{ tag: t.null, color: 'var(--color-error)', fontStyle: 'italic' },
-		{ tag: t.keyword, color: 'var(--color-secondary)', fontWeight: 'bold' },
-		{ tag: t.operator, color: 'var(--color-base-content)' },
-		{ tag: t.punctuation, color: 'var(--color-base-content)', opacity: '0.7' },
-		{ tag: t.bracket, color: 'var(--color-base-content)', fontWeight: 'bold' },
-		{ tag: t.brace, color: 'var(--color-base-content)', fontWeight: 'bold' },
-		{ tag: t.comment, color: 'var(--color-base-content)', opacity: '0.5', fontStyle: 'italic' },
-		{ tag: t.invalid, color: 'var(--color-error)', textDecoration: 'underline' },
+		{ tag: t.propertyName, color: '#9EFFFF' },
+		{ tag: t.string, color: '#3AD900' },
+		{ tag: t.number, color: '#FF628C' },
+		{ tag: t.bool, color: '#FF9D00', fontWeight: 'bold' },
+		{ tag: t.null, color: '#FF628C', fontStyle: 'italic' },
+		{ tag: t.keyword, color: '#FF9D00', fontWeight: 'bold' },
+		{ tag: t.operator, color: '#FFFFFF' },
+		{ tag: t.punctuation, color: '#FFFFFF' },
+		{ tag: t.bracket, color: '#FFFFFF', fontWeight: 'bold' },
+		{ tag: t.brace, color: '#FFFFFF', fontWeight: 'bold' },
+		{ tag: t.comment, color: '#0088FF', fontStyle: 'italic' },
+		{ tag: t.invalid, color: '#FF0000', textDecoration: 'underline' },
 	])
 );
+
+/**
+ * Duotone Light syntax highlighting (light theme)
+ */
+const duotoneLightSyntaxHighlighting = syntaxHighlighting(
+	HighlightStyle.define([
+		{ tag: t.propertyName, color: '#063289' },
+		{ tag: t.string, color: '#896724' },
+		{ tag: t.number, color: '#b29762' },
+		{ tag: t.bool, color: '#728FCE', fontWeight: 'bold' },
+		{ tag: t.null, color: '#b29762', fontStyle: 'italic' },
+		{ tag: t.keyword, color: '#728FCE', fontWeight: 'bold' },
+		{ tag: t.operator, color: '#728FCE' },
+		{ tag: t.punctuation, color: '#728FCE' },
+		{ tag: t.bracket, color: '#063289', fontWeight: 'bold' },
+		{ tag: t.brace, color: '#063289', fontWeight: 'bold' },
+		{ tag: t.comment, color: '#B8AFE6', fontStyle: 'italic' },
+		{ tag: t.invalid, color: '#D5393E', textDecoration: 'underline' },
+	])
+);
+
+/**
+ * JSON syntax highlighting that switches based on theme
+ * For backward compatibility - use theme-specific highlighting in new code
+ */
+export const jsonSyntaxHighlighting = cobaltSyntaxHighlighting;
+
+// Export both for explicit use
+export { cobaltSyntaxHighlighting, duotoneLightSyntaxHighlighting };
