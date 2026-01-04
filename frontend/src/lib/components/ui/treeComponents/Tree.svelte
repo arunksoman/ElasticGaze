@@ -331,6 +331,10 @@
 		store.collapseAll();
 	}
 
+	export function collapseNode(id: string) {
+		store.collapse(id);
+	}
+
 	export function selectNode(id: string, multi: boolean = false) {
 		store.selectNode(id, multi);
 	}

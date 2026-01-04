@@ -121,6 +121,20 @@
 		const node = nodeDataMap.get(contextMenuNode.id);
 		if (!node) return;
 
+		// Check folder depth - limit to 2 levels
+		if (node.type === 'folder') {
+			const currentDepth = getFolderDepth(node, storeState.collections);
+			if (currentDepth >= 2) {
+				showToast({ 
+					type: 'error', 
+					message: 'Maximum folder depth reached', 
+					description: 'Cannot create folders more than 2 levels deep' 
+				});
+				closeContextMenu();
+				return;
+			}
+		}
+
 		try {
 			const collectionId = node.type === 'collection' ? node.id : getCollectionIdFromNode(storeState.collections, node.id);
 			const req = new models.CreateFolderRequest();
@@ -250,6 +264,33 @@
 			return;
 		}
 
+		// Check folder depth limit when moving folders
+		if (sourceType === 'folder' && targetType === 'folder') {
+			const targetNode = nodeDataMap.get(event.targetId);
+			if (targetNode) {
+				const targetDepth = getFolderDepth(targetNode, storeState.collections);
+				if (targetDepth >= 2) {
+					showToast({ 
+						type: 'error', 
+						message: 'Maximum folder depth reached', 
+						description: 'Cannot move folders more than 2 levels deep' 
+					});
+					return;
+				}
+			}
+		}
+
+		// Get source node's parent before the move
+		const sourceNode = nodeDataMap.get(event.sourceId);
+		let sourceParentId: string | undefined;
+		if (sourceNode) {
+			// Find parent folder in collections tree
+			const parent = findParentOfNode(storeState.collections, sourceNode.id, sourceNode.type);
+			if (parent) {
+				sourceParentId = `${parent.type}-${parent.id}`;
+			}
+		}
+
 		try {
 			const targetCollectionId = targetType === 'collection' 
 				? targetNumericId 
@@ -269,6 +310,15 @@
 			}
 
 			await loadCollections();
+			
+			// After reload, check if source parent folder is now empty and collapse it
+			if (sourceParentId && treeComponent) {
+				const parentNode = findNodeInTree(treeNodes, sourceParentId);
+				if (parentNode && (!parentNode.children || parentNode.children.length === 0)) {
+					treeComponent.collapseNode(sourceParentId);
+				}
+			}
+			
 			showToast({ type: 'success', message: 'Item moved successfully' });
 		} catch (error: any) {
 			showToast({
@@ -289,6 +339,61 @@
 			}
 		}
 		return null;
+	}
+
+	// Find parent of a node
+	function findParentOfNode(nodes: models.CollectionTreeNode[], targetId: number, targetType: string): models.CollectionTreeNode | null {
+		for (const node of nodes) {
+			if (node.children) {
+				for (const child of node.children) {
+					if (child.id === targetId && child.type === targetType) {
+						return node;
+					}
+				}
+				const found = findParentOfNode(node.children, targetId, targetType);
+				if (found) return found;
+			}
+		}
+		return null;
+	}
+
+	// Find node in tree by string id
+	function findNodeInTree(nodes: TreeNodeItem[], id: string): TreeNodeItem | null {
+		for (const node of nodes) {
+			if (node.id === id) return node;
+			if (node.children) {
+				const found = findNodeInTree(node.children, id);
+				if (found) return found;
+			}
+		}
+		return null;
+	}
+
+	// Calculate folder depth (0 = root collection, 1 = folder in collection, 2 = subfolder)
+	function getFolderDepth(node: models.CollectionTreeNode, collections: models.CollectionTreeNode[]): number {
+		if (node.type === 'collection') return 0;
+		
+		let depth = 0;
+		let currentNode = node;
+		
+		// Find parent recursively
+		while (true) {
+			const parent = findParentOfNode(collections, currentNode.id, currentNode.type);
+			if (!parent) break;
+			
+			if (parent.type === 'collection') {
+				depth = 1; // Direct child of collection
+				break;
+			} else if (parent.type === 'folder') {
+				// Check parent's depth
+				const parentDepth = getFolderDepth(parent, collections);
+				depth = parentDepth + 1;
+				break;
+			}
+			currentNode = parent;
+		}
+		
+		return depth;
 	}
 
 	// Helper: Get collection ID for any node
@@ -385,6 +490,9 @@
 	.collection-tree {
 		height: 100%;
 		overflow-y: auto;
+		overflow-x: hidden;
+		width: 100%;
+		max-width: 280px;
 	}
 
 	.context-menu {

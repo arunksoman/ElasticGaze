@@ -30,6 +30,7 @@
 
 	let editValue = $state(node.name);
 	let inputElement = $state<HTMLInputElement>();
+	let extractedMethod = $state<{ method: string; color: string } | null>(null);
 
 	const storeState = $derived($store);
 	const isExpanded = $derived(storeState.expandedIds.has(node.id));
@@ -51,7 +52,33 @@
 	// Update editValue when editing starts
 	$effect(() => {
 		if (isEditing) {
-			editValue = node.name;
+			// Strip HTML to get plain text (removes method tags from requests)
+			const tempDiv = document.createElement('div');
+			tempDiv.innerHTML = node.name;
+			let plainText = tempDiv.textContent?.trim() || node.name;
+			
+			// Extract HTTP method and color if present
+			const httpMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'];
+			const methodColors: Record<string, string> = {
+				GET: '#22c55e',
+				POST: '#eab308',
+				PUT: '#3b82f6',
+				DELETE: '#ef4444',
+				PATCH: '#a855f7',
+				HEAD: '#64748b',
+				OPTIONS: '#64748b'
+			};
+			
+			extractedMethod = null;
+			for (const method of httpMethods) {
+				if (plainText.startsWith(method + ' ')) {
+					extractedMethod = { method, color: methodColors[method] || '#64748b' };
+					plainText = plainText.substring(method.length + 1).trim();
+					break;
+				}
+			}
+			
+			editValue = plainText;
 			setTimeout(() => {
 				inputElement?.focus();
 				inputElement?.select();
@@ -199,7 +226,9 @@
 	class:selected={isSelected}
 	class:focused={isFocused}
 	class:drag-target={isDragTarget}
-	style="padding-left: {depth * 1.5}rem;"
+	class:is-leaf={!isContainer}
+	data-depth={depth}
+	style="--depth: {depth}; padding-left: calc({depth} * 3rem);"
 	draggable={draggable ? 'true' : 'false'}
 	ondragstart={handleDragStart}
 	ondragover={handleDragOver}
@@ -210,6 +239,9 @@
 	ondblclick={handleDoubleClick}
 	oncontextmenu={handleContextMenu}
 	onkeydown={(e) => {
+		// Don't handle keyboard shortcuts when editing
+		if (isEditing) return;
+		
 		if (e.key === 'Enter' || e.key === ' ') {
 			e.preventDefault();
 			handleNodeClick(e as any);
@@ -226,11 +258,14 @@
 			>
 				{@html renderIcon(currentIcon)}
 			</button>
-		{:else}
-			<span class="icon-spacer"></span>
 		{/if}
 
 		{#if isEditing}
+			{#if extractedMethod}
+				<span class="method-label" style="color: {extractedMethod.color}; font-weight: 600; font-size: 0.75rem; margin-right: 0.5rem;">
+					{extractedMethod.method}
+				</span>
+			{/if}
 			<input
 				type="text"
 				bind:value={editValue}
@@ -273,6 +308,42 @@
 		background-color: var(--color-base-100);
 		color: var(--color-base-content);
 		transition: background-color 0.15s ease;
+		position: relative;
+		max-width: 100%;
+		box-sizing: border-box;
+	}
+
+	/* Tree connector lines for hierarchy visualization */
+	.tree-node::before {
+		content: '';
+		position: absolute;
+		left: calc(var(--depth) * 3rem - 0.75rem);
+		top: 0;
+		width: 1.5rem;
+		height: 50%;
+		border-left: 1px solid rgba(255, 255, 255, 0.15);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+		display: none;
+	}
+
+	.tree-node[data-depth]:not([data-depth="0"])::before {
+		display: block;
+	}
+
+	/* Vertical line for parent nodes with children */
+	.tree-node::after {
+		content: '';
+		position: absolute;
+		left: calc(var(--depth) * 3rem - 0.75rem);
+		top: 50%;
+		bottom: -100%;
+		width: 1px;
+		background: rgba(255, 255, 255, 0.15);
+		display: none;
+	}
+
+	.tree-node:not(.is-leaf)::after {
+		display: block;
 	}
 
 	.tree-node:hover {
@@ -297,9 +368,11 @@
 	.node-content {
 		display: flex;
 		align-items: center;
-		gap: 0.5rem;
+		gap: 0.25rem;
 		flex: 1;
-		padding: 0.25rem 0.5rem;
+		padding: 0.25rem 0.5rem 0.25rem 0;
+		min-width: 0;
+		overflow: hidden;
 	}
 
 	.icon-button {
@@ -341,6 +414,8 @@
 
 	.node-input {
 		flex: 1;
+		min-width: 0;
+		max-width: 180px;
 		padding: 0.25rem 0.5rem;
 		background-color: var(--color-base-200);
 		color: var(--color-base-content);
@@ -350,6 +425,7 @@
 		font-size: inherit;
 		font-family: inherit;
 		opacity: 0.8;
+		box-sizing: border-box;
 	}
 
 	.node-input:focus {
