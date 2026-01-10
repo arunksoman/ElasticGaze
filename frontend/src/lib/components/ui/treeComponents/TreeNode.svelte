@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { FolderClose, FolderOpen } from '@icon-park/svg';
+	import { FolderClose, FolderOpen, More } from '@icon-park/svg';
 	import type { TreeNodeItem, TreeIcons } from './types';
 	import type { TreeStore } from './treeStore';
 	import TreeNode from './TreeNode.svelte';
@@ -211,6 +211,21 @@
 		e.stopPropagation();
 		oncontextmenu?.(e, node.id);
 	}
+
+	function handleMoreClick(e: MouseEvent) {
+		e.preventDefault();
+		e.stopPropagation();
+		// Calculate position for the context menu based on the button
+		const buttonRect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+		// Create a new MouseEvent with proper positioning
+		const contextMenuEvent = new MouseEvent('contextmenu', {
+			bubbles: true,
+			cancelable: true,
+			clientX: buttonRect.left,
+			clientY: buttonRect.bottom
+		});
+		oncontextmenu?.(contextMenuEvent, node.id);
+	}
 </script>
 
 <div
@@ -272,6 +287,17 @@
 			/>
 		{:else}
 			<span class="node-label">{@html node.name}</span>
+			
+			<!-- More button for context menu -->
+			<button
+				class="more-button"
+				onclick={handleMoreClick}
+				aria-label="More options"
+				tabindex="-1"
+				title="More options"
+			>
+				{@html More({ theme: 'outline', size: '14' })}
+			</button>
 		{/if}
 	</div>
 </div>
@@ -407,6 +433,36 @@
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+	}
+
+	.more-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.25rem;
+		background: transparent;
+		border: none;
+		cursor: pointer;
+		color: var(--color-base-content);
+		border-radius: var(--radius-field);
+		transition: background-color 0.15s ease, opacity 0.15s ease;
+		opacity: 0;
+		margin-left: auto;
+	}
+
+	.tree-node:hover .more-button {
+		opacity: 0.7;
+	}
+
+	.more-button:hover {
+		background-color: var(--color-base-300);
+		opacity: 1 !important;
+	}
+
+	.more-button :global(svg) {
+		width: 14px;
+		height: 14px;
+		display: block;
 	}
 
 	.node-input {
