@@ -253,20 +253,7 @@ function createRestStore() {
 					responses: newResponses
 				};
 			});
-		},
-		
-		clearResponse: (tabId: string) => {
-			update(state => {
-				const newResponses = new Map(state.responses);
-				newResponses.delete(tabId);
-				return {
-					...state,
-					responses: newResponses
-				};
-			});
-		},
-		
-		reset: () => set(initialState)
+		}
 	};
 }
 

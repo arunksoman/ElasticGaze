@@ -119,7 +119,7 @@
 		</div>
 
 		<!-- Tab Content -->
-		<div class="flex-1 overflow-hidden">
+		<div class="flex-1 overflow-auto">
 			{#if activeConfigTab === 'body'}
 				<div class="h-full p-3">
 					<CodeEditor
@@ -127,7 +127,7 @@
 						language="json"
 						onchange={handleBodyChange}
 						placeholder="Enter request body (JSON)"
-						minHeight="300px"
+						minHeight="150px"
 					/>
 				</div>
 			{:else if activeConfigTab === 'params'}

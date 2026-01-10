@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { SecondarySidebar, SecondarySidebarToggle, RequestTab, restStore } from '$lib/components/ui/restComponents';
+	import { SecondarySidebar, SecondarySidebarToggle, RequestTab, restStore } from '$lib/components/app/restComponents';
 	import { GetDefaultConfig, EnsureDefaultCollection } from '$lib/wailsjs/go/main/App';
 	import { showToast } from '$lib/components/ui/toastComponent';
 	import { sidebarExpanded } from '$lib/components/ui/sideBarComponents/sidebar';

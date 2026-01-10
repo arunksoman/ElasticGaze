@@ -362,7 +362,7 @@
 
 	/* Focus ring */
 	.code-editor-wrapper:focus-within {
-		outline: 2px solid var(--color-accent);
+		outline: 1px solid var(--color-neutral-content);
 		outline-offset: 2px;
 	}
 

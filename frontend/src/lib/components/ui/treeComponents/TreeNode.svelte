@@ -347,6 +347,7 @@
 		border-left: 1px solid rgba(255, 255, 255, 0.15);
 		border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 		display: none;
+		pointer-events: none;
 	}
 
 	.tree-node[data-depth]:not([data-depth="0"])::before {
@@ -359,13 +360,15 @@
 		position: absolute;
 		left: calc(var(--depth) * 3rem - 0.75rem);
 		top: 50%;
-		bottom: -100%;
+		bottom: 0;
 		width: 1px;
 		background: rgba(255, 255, 255, 0.15);
 		display: none;
+		pointer-events: none;
 	}
 
-	.tree-node:not(.is-leaf)::after {
+	/* Only show vertical line if there are more siblings below */
+	.tree-node:not(:last-child)::after {
 		display: block;
 	}
 

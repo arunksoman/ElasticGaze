@@ -424,6 +424,8 @@
 <style>
 	.tree-container {
 		outline: none;
+		overflow: hidden;
+		position: relative;
 	}
 
 	.tree-empty {

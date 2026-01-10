@@ -2,7 +2,7 @@
 	import { restStore, activeTab, methodBgColors, type RestResponse } from './restStore';
 	import { ExecuteRestRequest, GetDefaultConfig, UpdateRequest } from '$lib/wailsjs/go/main/App';
 	import { models } from '$lib/wailsjs/go/models';
-	import { Splitter, SplitterPane, SplitterHandle } from '$lib/components/ui/splitterComponents';
+	import { Splitter, SplitterPane } from '$lib/components/ui/splitterComponents';
 	import UrlConstructor from './UrlConstructor.svelte';
 	import RequestConfigTabs from './RequestConfigTabs.svelte';
 	import ResponseViewer from './ResponseViewer.svelte';
@@ -177,7 +177,7 @@
 	{#if tab}
 		<!-- Request Content -->
 		<div class="flex-1 overflow-hidden">
-			<Splitter direction="vertical" initialSizes={[60, 40]}>
+			<Splitter direction="vertical" initialSizes={[60, 40]} gutterSize={4}>
 				<!-- Top: Request Configuration -->
 				<SplitterPane id="request-config">
 					<div class="h-full flex flex-col p-4 space-y-4 overflow-y-auto">
@@ -227,8 +227,6 @@
 						</div>
 					</div>
 				</SplitterPane>
-
-				<SplitterHandle index={0} direction="vertical" size={4} />
 
 				<!-- Bottom: Response Viewer -->
 				<SplitterPane id="response-viewer">
