@@ -147,10 +147,64 @@
 			is_resizable: true,
 			cell: (row) => {
 				const nodeTypes = parseRoles(row.roles);
-				const dots = nodeTypes.map((type) => 
-					`<div class="w-3 h-3 rounded-full" style="background-color: ${getRoleColor(type)};" title="${type.replace(/_/g, ' ')}"></div>`
+				
+				const typeNames: Record<string, string> = {
+					master: 'Master node',
+					master_eligible: 'Master eligible',
+					data: 'Data node',
+					ingest: 'Ingest node',
+					coordinating_only: 'Coordinating only'
+				};
+				
+				const tooltipContent = nodeTypes.map((type) => 
+					`<div style="padding: 2px 0; display: flex; align-items: center; gap: 8px;">
+						<div style="width: 12px; height: 12px; border-radius: 50%; background-color: ${getRoleColor(type)};"></div>
+						<span>${typeNames[type] || type.replace(/_/g, ' ')}</span>
+					</div>`
 				).join('');
-				return `<div class="flex gap-1 items-center">${dots}</div>`;
+				
+				const dots = nodeTypes.map((type) => 
+					`<div class="w-3 h-3 rounded-full" style="background-color: ${getRoleColor(type)};"></div>`
+				).join('');
+				
+				return `
+					<span style="position: relative; display: inline-block; cursor: help;" 
+						onmouseenter="
+							const tooltip = this.querySelector('.type-tooltip');
+							const rect = this.getBoundingClientRect();
+							tooltip.style.left = (rect.right + 8) + 'px';
+							tooltip.style.top = (rect.top + rect.height / 2) + 'px';
+							tooltip.style.transform = 'translateY(-50%)';
+							tooltip.style.opacity = '1';
+							tooltip.style.visibility = 'visible';
+						" 
+						onmouseleave="
+							const tooltip = this.querySelector('.type-tooltip');
+							tooltip.style.opacity = '0';
+							tooltip.style.visibility = 'hidden';
+						">
+						<div class="flex gap-1 items-center">${dots}</div>
+						<span class="type-tooltip" style="
+							position: fixed;
+							padding: 8px 12px;
+							background-color: var(--color-base-200);
+							border: 1px solid var(--color-base-300);
+							border-radius: var(--radius-field);
+							color: var(--color-base-content);
+							font-size: 11px;
+							line-height: 1.4;
+							white-space: nowrap;
+							z-index: 999999;
+							box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+							opacity: 0;
+							visibility: hidden;
+							pointer-events: none;
+							transition: opacity 0.2s, visibility 0.2s;
+						">
+							${tooltipContent}
+						</span>
+					</span>
+				`;
 			}
 		},
 		{
