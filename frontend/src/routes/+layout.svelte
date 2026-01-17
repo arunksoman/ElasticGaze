@@ -15,7 +15,7 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div class="min-h-screen bg-(--color-base-200) overflow-x-hidden">
+<div class="min-h-screen bg-(--color-base-200) mt-7 overflow-x-hidden">
 	<WindowControls />
 	<div class="flex">
 		<Sidebar onExpand={(isExpanded: boolean) => sidebarExpanded.set(isExpanded)} />

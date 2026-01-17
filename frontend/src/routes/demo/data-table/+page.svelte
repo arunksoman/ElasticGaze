@@ -8,6 +8,7 @@
 	import type { DataTableColumn } from '$lib/components/ui/dataTableComponent';
 	import Button from '$lib/components/ui/formComponents/Button.svelte';
 	import ProgressbarComponent from '$lib/components/ui/progressbarComponent/progressbarComponent.svelte';
+	import Modal from '$lib/components/ui/modalComponents/Modal.svelte';
 
 	// Sample data types
 	interface User {
@@ -88,9 +89,21 @@
 	const largeDataset = generateUsers(1000);
 	const products = generateProducts(50);
 
+	// Modal state
+	let isModalOpen = $state(false);
+	let selectedUser = $state<User | null>(null);
+
 	// Action handlers
 	function handleView(id: number) {
 		alert(`Viewing user ${id}`);
+	}
+
+	function openUserModal(id: number) {
+		const user = smallDataset.find(u => u.id === id);
+		if (user) {
+			selectedUser = user;
+			isModalOpen = true;
+		}
 	}
 
 	function handleEdit(id: number) {
@@ -105,6 +118,15 @@
 
 	function handleBuyProduct(id: string) {
 		alert(`Buying product ${id}`);
+	}
+
+	// Make functions globally accessible for HTML onclick handlers
+	if (typeof window !== 'undefined') {
+		(window as any).openUserModal = openUserModal;
+		(window as any).handleView = handleView;
+		(window as any).handleEdit = handleEdit;
+		(window as any).handleDelete = handleDelete;
+		(window as any).handleBuyProduct = handleBuyProduct;
 	}
 
 	// Column definitions for different tables
@@ -203,11 +225,11 @@
 			enable_sort: false,
 			is_resizable: false,
 			cell: (row) => {
-				// Return multiple buttons
+				// Return multiple buttons - using window functions for onclick
 				return `
 					<div style="display: flex; gap: 0.5rem;">
 						<button 
-							onclick="(${handleView})(${row.id})"
+							onclick="window.openUserModal(${row.id})"
 							style="
 								padding: 0.25rem 0.75rem;
 								font-size: 0.875rem;
@@ -217,9 +239,9 @@
 								border: none;
 								cursor: pointer;
 							"
-						>View</button>
+						>View Details</button>
 						<button 
-							onclick="(${handleEdit})(${row.id})"
+							onclick="window.handleEdit(${row.id})"
 							style="
 								padding: 0.25rem 0.75rem;
 								font-size: 0.875rem;
@@ -231,7 +253,7 @@
 							"
 						>Edit</button>
 						<button 
-							onclick="(${handleDelete})(${row.id})"
+							onclick="window.handleDelete(${row.id})"
 							style="
 								padding: 0.25rem 0.75rem;
 								font-size: 0.875rem;
@@ -515,3 +537,81 @@
 		</section>
 	</div>
 </div>
+
+<!-- User Details Modal -->
+<Modal bind:open={isModalOpen} title="User Details" size="md">
+	{#snippet children()}
+		{#if selectedUser}
+			<div class="space-y-4">
+				<div class="grid grid-cols-2 gap-4">
+					<div>
+						<label class="text-sm font-semibold opacity-70">ID</label>
+						<p class="text-base">{selectedUser.id}</p>
+					</div>
+					<div>
+						<label class="text-sm font-semibold opacity-70">Status</label>
+						<p class="text-base">
+							<span
+								style="color: {selectedUser.status === 'active'
+									? 'var(--color-success)'
+									: selectedUser.status === 'inactive'
+										? 'var(--color-error)'
+										: 'var(--color-warning)'}; font-weight: 600;"
+							>
+								{selectedUser.status.toUpperCase()}
+							</span>
+						</p>
+					</div>
+				</div>
+				<div>
+					<label class="text-sm font-semibold opacity-70">Name</label>
+					<p class="text-base">{selectedUser.name}</p>
+				</div>
+				<div>
+					<label class="text-sm font-semibold opacity-70">Email</label>
+					<p class="text-base">{selectedUser.email}</p>
+				</div>
+				<div>
+					<label class="text-sm font-semibold opacity-70">Department</label>
+					<p class="text-base">{selectedUser.department}</p>
+				</div>
+				<div>
+					<label class="text-sm font-semibold opacity-70">Join Date</label>
+					<p class="text-base">{selectedUser.joinDate}</p>
+				</div>
+				<div>
+					<label class="text-sm font-semibold opacity-70">Progress</label>
+					<div class="flex items-center gap-3">
+						<div
+							style="flex: 1; height: 12px; background-color: var(--color-base-300); border-radius: var(--radius-field); overflow: hidden;"
+						>
+							<div
+								style="width: {selectedUser.progress}%; height: 100%; background-color: {selectedUser.progress < 30
+									? 'var(--color-error)'
+									: selectedUser.progress < 70
+										? 'var(--color-warning)'
+										: 'var(--color-success)'}; transition: width 0.3s ease;"
+							></div>
+						</div>
+						<span class="text-sm font-semibold">{selectedUser.progress}%</span>
+					</div>
+				</div>
+			</div>
+		{/if}
+	{/snippet}
+	{#snippet footer()}
+		<div class="flex justify-end gap-2">
+			<Button variant="ghost" onclick={() => (isModalOpen = false)}>Close</Button>
+			<Button
+				variant="primary"
+				onclick={() => {
+					if (selectedUser) {
+						alert(`Editing user ${selectedUser.id}`);
+					}
+				}}
+			>
+				Edit User
+			</Button>
+		</div>
+	{/snippet}
+</Modal>

@@ -34,7 +34,7 @@ async function handleClose() {
 
 
 <div
-  class="flex items-center sticky top-0 z-50 justify-end h-7 w-full select-none bg-(--color-base-100) text-(--color-base-content)"
+  class="flex items-center fixed top-0 z-50 justify-end h-7 w-full select-none bg-(--color-base-100) text-(--color-base-content)"
   style="--wails-draggable:drag;"
 >
   <button
