@@ -48,6 +48,8 @@ export function GetFolderByID(arg1:number):Promise<models.Folder>;
 
 export function GetFoldersByCollectionID(arg1:number):Promise<Array<models.Folder>>;
 
+export function GetNodes(arg1:number):Promise<models.NodesResponse>;
+
 export function GetRequestByID(arg1:number):Promise<models.Request>;
 
 export function GetRequestsByCollectionID(arg1:number):Promise<Array<models.Request>>;

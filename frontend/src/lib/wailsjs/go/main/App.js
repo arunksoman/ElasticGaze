@@ -94,6 +94,10 @@ export function GetFoldersByCollectionID(arg1) {
   return window['go']['main']['App']['GetFoldersByCollectionID'](arg1);
 }
 
+export function GetNodes(arg1) {
+  return window['go']['main']['App']['GetNodes'](arg1);
+}
+
 export function GetRequestByID(arg1) {
   return window['go']['main']['App']['GetRequestByID'](arg1);
 }

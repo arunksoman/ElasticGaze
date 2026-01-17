@@ -20,6 +20,7 @@ type App struct {
 	configService      *service.ConfigService
 	esService          *service.ElasticsearchService
 	collectionsService *service.CollectionsService
+	nodesService       *service.NodesService
 }
 
 // NewApp creates a new App application struct
@@ -76,6 +77,9 @@ func (a *App) initDatabase() error {
 	// Initialize collections repository and service
 	collectionsRepo := repository.NewCollectionsRepository(db.Conn())
 	a.collectionsService = service.NewCollectionsService(collectionsRepo)
+
+	// Initialize nodes service with elasticsearch service
+	a.nodesService = service.NewNodesService(a.esService)
 
 	return nil
 }
@@ -200,6 +204,32 @@ func (a *App) ExecuteRestRequest(configID int, req *models.ElasticsearchRestRequ
 		runtime.LogWarningf(a.ctx, "REST request failed with status %d", response.StatusCode)
 	}
 
+	return response, nil
+}
+
+// GetNodes retrieves information about all nodes in the cluster for a specific configuration
+func (a *App) GetNodes(configID int) (*models.NodesResponse, error) {
+	runtime.LogInfof(a.ctx, "Fetching nodes data for config ID: %d", configID)
+
+	// Get the configuration
+	config, err := a.configService.GetConfigByID(configID)
+	if err != nil {
+		runtime.LogErrorf(a.ctx, "Failed to get configuration: %v", err)
+		return nil, fmt.Errorf("failed to get configuration: %w", err)
+	}
+
+	// Fetch nodes data
+	response, err := a.nodesService.GetNodes(config)
+	if err != nil {
+		runtime.LogErrorf(a.ctx, "Failed to fetch nodes: %v", err)
+		return nil, fmt.Errorf("failed to fetch nodes: %w", err)
+	}
+
+	if !response.Success {
+		runtime.LogWarningf(a.ctx, "Nodes fetch completed with errors: %s", response.Error)
+	}
+
+	runtime.LogInfof(a.ctx, "Successfully fetched %d nodes", len(response.Nodes))
 	return response, nil
 }
 

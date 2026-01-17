@@ -24,7 +24,7 @@ import {
 } from '@codemirror/autocomplete';
 import { linter, lintKeymap } from '@codemirror/lint';
 import { defaultKeymap, history, historyKeymap, indentWithTab } from '@codemirror/commands';
-import { bracketMatching, foldGutter, foldKeymap, indentOnInput, syntaxHighlighting, defaultHighlightStyle } from '@codemirror/language';
+import { bracketMatching, foldGutter, foldKeymap, indentOnInput, syntaxHighlighting } from '@codemirror/language';
 import { searchKeymap } from '@codemirror/search';
 import { darkTheme, lightTheme, cobaltSyntaxHighlighting, duotoneLightSyntaxHighlighting } from './themes';
 

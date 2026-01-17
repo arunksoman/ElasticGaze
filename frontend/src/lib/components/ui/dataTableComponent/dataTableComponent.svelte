@@ -126,10 +126,10 @@
 
 <div class="w-full {className}">
 	<!-- Table -->
-	<div class="overflow-x-auto">
+	<div class="overflow-x-auto relative">
 		<table
 			class="w-full border-collapse"
-			style="background-color: var(--color-base-100);"
+			style="background-color: var(--color-base-100); min-width: max-content;"
 		>
 			<!-- Header -->
 			<thead style="background-color: var(--color-base-200);">

@@ -15,11 +15,11 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div class="min-h-screen bg-(--color-base-200)">
+<div class="min-h-screen bg-(--color-base-200) overflow-x-hidden">
 	<WindowControls />
 	<div class="flex">
 		<Sidebar onExpand={(isExpanded: boolean) => sidebarExpanded.set(isExpanded)} />
-		<div class="flex-1 transition-all duration-300" style="margin-left: {$sidebarExpanded ? '220px' : '56px'}">
+		<div class="flex-1 transition-all duration-300 overflow-x-hidden" style="margin-left: {$sidebarExpanded ? '220px' : '56px'};">
 			{@render children?.()}
 		</div>
 	</div>

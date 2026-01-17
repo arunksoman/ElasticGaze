@@ -399,6 +399,78 @@ export namespace models {
 	        this.total = source["total"];
 	    }
 	}
+	export class NodeInfo {
+	    id: string;
+	    name: string;
+	    ip: string;
+	    master: boolean;
+	    roles: string[];
+	    role_string: string;
+	    attributes: string;
+	    load: string;
+	    cpu_percent: number;
+	    ram_percent: number;
+	    heap_percent: number;
+	    disk_percent: number;
+	    shards: number;
+	    version: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new NodeInfo(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.name = source["name"];
+	        this.ip = source["ip"];
+	        this.master = source["master"];
+	        this.roles = source["roles"];
+	        this.role_string = source["role_string"];
+	        this.attributes = source["attributes"];
+	        this.load = source["load"];
+	        this.cpu_percent = source["cpu_percent"];
+	        this.ram_percent = source["ram_percent"];
+	        this.heap_percent = source["heap_percent"];
+	        this.disk_percent = source["disk_percent"];
+	        this.shards = source["shards"];
+	        this.version = source["version"];
+	    }
+	}
+	export class NodesResponse {
+	    success: boolean;
+	    nodes: NodeInfo[];
+	    error?: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new NodesResponse(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.success = source["success"];
+	        this.nodes = this.convertValues(source["nodes"], NodeInfo);
+	        this.error = source["error"];
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
 	export class ShardCounts {
 	    primary: number;
 	    replica: number;
