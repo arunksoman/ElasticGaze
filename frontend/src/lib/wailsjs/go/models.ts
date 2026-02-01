@@ -281,6 +281,44 @@ export namespace models {
 	        this.collection_id = source["collection_id"];
 	    }
 	}
+	export class CreateIndexRequest {
+	    config_id: number;
+	    index_name: string;
+	    num_shards: number;
+	    num_replicas: number;
+	
+	    static createFrom(source: any = {}) {
+	        return new CreateIndexRequest(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.config_id = source["config_id"];
+	        this.index_name = source["index_name"];
+	        this.num_shards = source["num_shards"];
+	        this.num_replicas = source["num_replicas"];
+	    }
+	}
+	export class CreateIndexResponse {
+	    success: boolean;
+	    acknowledged?: boolean;
+	    shards_acknowledged?: boolean;
+	    index?: string;
+	    error?: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new CreateIndexResponse(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.success = source["success"];
+	        this.acknowledged = source["acknowledged"];
+	        this.shards_acknowledged = source["shards_acknowledged"];
+	        this.index = source["index"];
+	        this.error = source["error"];
+	    }
+	}
 	export class CreateRequestRequest {
 	    name: string;
 	    method: string;
@@ -303,6 +341,36 @@ export namespace models {
 	        this.description = source["description"];
 	        this.folder_id = source["folder_id"];
 	        this.collection_id = source["collection_id"];
+	    }
+	}
+	export class DeleteIndexRequest {
+	    config_id: number;
+	    index_name: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new DeleteIndexRequest(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.config_id = source["config_id"];
+	        this.index_name = source["index_name"];
+	    }
+	}
+	export class DeleteIndexResponse {
+	    success: boolean;
+	    acknowledged?: boolean;
+	    error?: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new DeleteIndexResponse(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.success = source["success"];
+	        this.acknowledged = source["acknowledged"];
+	        this.error = source["error"];
 	    }
 	}
 	export class ElasticsearchRestRequest {
@@ -365,6 +433,63 @@ export namespace models {
 	        this.updated_at = source["updated_at"];
 	    }
 	}
+	export class IndexInfo {
+	    name: string;
+	    health: string;
+	    status: string;
+	    uuid: string;
+	    pri: string;
+	    rep: string;
+	    docs_count: string;
+	    docs_deleted: string;
+	    store_size: string;
+	    pri_store_size: string;
+	    creation_date: string;
+	    // Go type: time
+	    creation_time: any;
+	    segments?: string;
+	    aliases?: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new IndexInfo(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.name = source["name"];
+	        this.health = source["health"];
+	        this.status = source["status"];
+	        this.uuid = source["uuid"];
+	        this.pri = source["pri"];
+	        this.rep = source["rep"];
+	        this.docs_count = source["docs_count"];
+	        this.docs_deleted = source["docs_deleted"];
+	        this.store_size = source["store_size"];
+	        this.pri_store_size = source["pri_store_size"];
+	        this.creation_date = source["creation_date"];
+	        this.creation_time = this.convertValues(source["creation_time"], null);
+	        this.segments = source["segments"];
+	        this.aliases = source["aliases"];
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
 	export class IndexMetrics {
 	    document_count: number;
 	    disk_usage: string;
@@ -380,6 +505,40 @@ export namespace models {
 	        this.disk_usage = source["disk_usage"];
 	        this.disk_usage_bytes = source["disk_usage_bytes"];
 	    }
+	}
+	export class IndicesResponse {
+	    success: boolean;
+	    indices?: IndexInfo[];
+	    error?: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new IndicesResponse(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.success = source["success"];
+	        this.indices = this.convertValues(source["indices"], IndexInfo);
+	        this.error = source["error"];
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
 	}
 	export class NodeCounts {
 	    master: number;

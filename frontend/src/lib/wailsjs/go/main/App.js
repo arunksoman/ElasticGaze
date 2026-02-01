@@ -22,6 +22,10 @@ export function CreateFolder(arg1) {
   return window['go']['main']['App']['CreateFolder'](arg1);
 }
 
+export function CreateIndex(arg1) {
+  return window['go']['main']['App']['CreateIndex'](arg1);
+}
+
 export function CreateRequest(arg1) {
   return window['go']['main']['App']['CreateRequest'](arg1);
 }
@@ -36,6 +40,10 @@ export function DeleteConfig(arg1) {
 
 export function DeleteFolder(arg1) {
   return window['go']['main']['App']['DeleteFolder'](arg1);
+}
+
+export function DeleteIndex(arg1) {
+  return window['go']['main']['App']['DeleteIndex'](arg1);
 }
 
 export function DeleteRequest(arg1) {
@@ -92,6 +100,10 @@ export function GetFolderByID(arg1) {
 
 export function GetFoldersByCollectionID(arg1) {
   return window['go']['main']['App']['GetFoldersByCollectionID'](arg1);
+}
+
+export function GetIndices(arg1) {
+  return window['go']['main']['App']['GetIndices'](arg1);
 }
 
 export function GetNodes(arg1) {

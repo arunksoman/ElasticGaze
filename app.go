@@ -21,6 +21,7 @@ type App struct {
 	esService          *service.ElasticsearchService
 	collectionsService *service.CollectionsService
 	nodesService       *service.NodesService
+	indicesService     *service.IndicesService
 }
 
 // NewApp creates a new App application struct
@@ -80,6 +81,9 @@ func (a *App) initDatabase() error {
 
 	// Initialize nodes service with elasticsearch service
 	a.nodesService = service.NewNodesService(a.esService)
+
+	// Initialize indices service
+	a.indicesService = service.NewIndicesService(a.esService)
 
 	return nil
 }
@@ -205,6 +209,57 @@ func (a *App) ExecuteRestRequest(configID int, req *models.ElasticsearchRestRequ
 	}
 
 	return response, nil
+}
+
+// GetIndices retrieves all indices for a specific configuration
+func (a *App) GetIndices(configID int) (*models.IndicesResponse, error) {
+	runtime.LogInfo(a.ctx, fmt.Sprintf("Fetching indices for config ID: %d", configID))
+
+	// Get the configuration
+	config, err := a.configService.GetConfigByID(configID)
+	if err != nil {
+		return &models.IndicesResponse{Success: false, Error: fmt.Sprintf("Failed to get config: %v", err)}, nil
+	}
+	if config == nil {
+		return &models.IndicesResponse{Success: false, Error: "Configuration not found"}, nil
+	}
+
+	// Fetch indices
+	return a.indicesService.GetIndices(config)
+}
+
+// CreateIndex creates a new index in Elasticsearch
+func (a *App) CreateIndex(req *models.CreateIndexRequest) (*models.CreateIndexResponse, error) {
+	runtime.LogInfo(a.ctx, fmt.Sprintf("Creating index: %s for config ID: %d", req.IndexName, req.ConfigID))
+
+	// Get the configuration
+	config, err := a.configService.GetConfigByID(req.ConfigID)
+	if err != nil {
+		return &models.CreateIndexResponse{Success: false, Error: fmt.Sprintf("Failed to get config: %v", err)}, nil
+	}
+	if config == nil {
+		return &models.CreateIndexResponse{Success: false, Error: "Configuration not found"}, nil
+	}
+
+	// Create index
+	return a.indicesService.CreateIndex(config, req)
+}
+
+// DeleteIndex deletes an index from Elasticsearch
+func (a *App) DeleteIndex(req *models.DeleteIndexRequest) (*models.DeleteIndexResponse, error) {
+	runtime.LogInfo(a.ctx, fmt.Sprintf("Deleting index: %s for config ID: %d", req.IndexName, req.ConfigID))
+
+	// Get the configuration
+	config, err := a.configService.GetConfigByID(req.ConfigID)
+	if err != nil {
+		return &models.DeleteIndexResponse{Success: false, Error: fmt.Sprintf("Failed to get config: %v", err)}, nil
+	}
+	if config == nil {
+		return &models.DeleteIndexResponse{Success: false, Error: "Configuration not found"}, nil
+	}
+
+	// Delete index
+	return a.indicesService.DeleteIndex(config, req)
 }
 
 // GetNodes retrieves information about all nodes in the cluster for a specific configuration

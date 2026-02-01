@@ -150,21 +150,23 @@
 								<div class="flex items-center gap-2">
 									<!-- Header content -->
 									{#if canSort}
+										{@const headerContent = typeof column.columnDef.header === 'function' 
+											? column.columnDef.header(header.getContext())
+											: column.columnDef.header}
 										<button
 											type="button"
 											onclick={() => handleSort(header.id)}
 											class="flex-1 text-left hover:opacity-70"
 											style="background: none; border: none; color: inherit; font: inherit; cursor: pointer; padding: 0;"
 										>
-											{typeof column.columnDef.header === 'function' 
-												? column.columnDef.header(header.getContext())
-												: column.columnDef.header}
+											{@html headerContent}
 										</button>
 									{:else}
+										{@const headerContent = typeof column.columnDef.header === 'function' 
+											? column.columnDef.header(header.getContext())
+											: column.columnDef.header}
 										<span class="flex-1">
-											{typeof column.columnDef.header === 'function' 
-												? column.columnDef.header(header.getContext())
-												: column.columnDef.header}
+											{@html headerContent}
 										</span>
 									{/if}
 

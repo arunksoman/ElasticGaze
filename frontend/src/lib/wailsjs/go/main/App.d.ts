@@ -12,6 +12,8 @@ export function CreateConfig(arg1:models.CreateConfigRequest):Promise<models.Con
 
 export function CreateFolder(arg1:models.CreateFolderRequest):Promise<models.Folder>;
 
+export function CreateIndex(arg1:models.CreateIndexRequest):Promise<models.CreateIndexResponse>;
+
 export function CreateRequest(arg1:models.CreateRequestRequest):Promise<models.Request>;
 
 export function DeleteCollection(arg1:number):Promise<void>;
@@ -19,6 +21,8 @@ export function DeleteCollection(arg1:number):Promise<void>;
 export function DeleteConfig(arg1:number):Promise<void>;
 
 export function DeleteFolder(arg1:number):Promise<void>;
+
+export function DeleteIndex(arg1:models.DeleteIndexRequest):Promise<models.DeleteIndexResponse>;
 
 export function DeleteRequest(arg1:number):Promise<void>;
 
@@ -47,6 +51,8 @@ export function GetDefaultConfig():Promise<models.Config>;
 export function GetFolderByID(arg1:number):Promise<models.Folder>;
 
 export function GetFoldersByCollectionID(arg1:number):Promise<Array<models.Folder>>;
+
+export function GetIndices(arg1:number):Promise<models.IndicesResponse>;
 
 export function GetNodes(arg1:number):Promise<models.NodesResponse>;
 
