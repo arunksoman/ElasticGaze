@@ -2,17 +2,10 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import DefaultConnectionMessage from '$lib/components/app/DefaultConnectionMessage.svelte';
-	import Button from '$lib/components/ui/formComponents/Button.svelte';
-	import Modal from '$lib/components/ui/modalComponents/Modal.svelte';
-	import ModalHeader from '$lib/components/ui/modalComponents/ModalHeader.svelte';
-	import ModalBody from '$lib/components/ui/modalComponents/ModalBody.svelte';
-	import ModalFooter from '$lib/components/ui/modalComponents/ModalFooter.svelte';
-	import Input from '$lib/components/ui/formComponents/Input.svelte';
-	import Checkbox from '$lib/components/ui/formComponents/Checkbox.svelte';
-	import DataTableComponent from '$lib/components/ui/dataTableComponent/dataTableComponent.svelte';
-	import ContextMenu from '$lib/components/ui/contextMenuComponents/ContextMenu.svelte';
-	import type { DataTableColumn } from '$lib/components/ui/dataTableComponent/dataTableComponent.types';
-	import type { ContextMenuItemData } from '$lib/components/ui/contextMenuComponents/contextMenuStore';
+	import { Button, Input, Checkbox } from 'chathuram/form';
+	import { Modal, ModalHeader, ModalBody, ModalFooter } from 'chathuram/modal';
+	import { DataTableComponent, type DataTableColumn } from 'chathuram/data-table';
+	import { ContextMenu, type ContextMenuItemData } from 'chathuram/context-menu';
 	import { GetDefaultConfig, GetIndices, CreateIndex, DeleteIndex } from '$lib/wailsjs/go/main/App';
 	import { Search, MoreOne, Plus } from '@icon-park/svg';
 

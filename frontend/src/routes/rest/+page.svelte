@@ -2,8 +2,8 @@
 	import { onMount } from 'svelte';
 	import { SecondarySidebar, SecondarySidebarToggle, RequestTab, restStore } from '$lib/components/app/restComponents';
 	import { GetDefaultConfig, EnsureDefaultCollection } from '$lib/wailsjs/go/main/App';
-	import { showToast } from '$lib/components/ui/toastComponent';
-	import { sidebarExpanded } from '$lib/components/ui/sideBarComponents/sidebar';
+	import { showToast } from 'chathuram/toast';
+	import { sidebarExpanded } from 'chathuram/sidebar';
 
 	const storeState = $derived($restStore);
 	const sidebarState = $derived($sidebarExpanded);

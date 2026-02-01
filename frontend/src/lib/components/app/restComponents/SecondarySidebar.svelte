@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { DoubleLeft } from '@icon-park/svg';
 	import { restStore } from './restStore';
-	import { sidebarExpanded } from '$lib/components/ui/sideBarComponents/sidebar';
+	import { sidebarExpanded } from 'chathuram/sidebar';
 	import CollectionTree from './CollectionTree.svelte';
 
 	const storeState = $derived($restStore);

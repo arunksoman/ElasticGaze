@@ -1,12 +1,12 @@
 <script lang="ts">
-	import Card from '$lib/components/ui/Card/Card.svelte';
-	import { Modal } from '$lib/components/ui/modalComponents';
-	import { Button } from '$lib/components/ui/formComponents';
+	import Card from 'chathuram/card';
+	import { Modal } from 'chathuram/modal';
+	import { Button } from 'chathuram/form';
+	import { toastStore } from 'chathuram/toast';
+	import { clickOutside } from 'chathuram/popover';
 	import ConnectionForm from './ConnectionForm.svelte';
 	import { MoreOne, Pencil, Delete } from '@icon-park/svg';
 	import { DeleteConfig } from '$lib/wailsjs/go/main/App';
-	import { toastStore } from '$lib/components/ui/toastComponent/toastStore';
-	import { clickOutside } from '$lib/components/ui/popoverComponents/clickOutside';
 	import { ENV_COLORS, DEFAULT_ENV_COLOR } from '$lib/core/constants';
 	
 	interface Props {

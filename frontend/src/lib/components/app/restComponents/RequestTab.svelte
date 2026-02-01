@@ -2,12 +2,12 @@
 	import { restStore, activeTab, methodBgColors, type RestResponse } from './restStore';
 	import { ExecuteRestRequest, GetDefaultConfig, UpdateRequest } from '$lib/wailsjs/go/main/App';
 	import { models } from '$lib/wailsjs/go/models';
-	import { Splitter, SplitterPane } from '$lib/components/ui/splitterComponents';
+	import { Splitter, SplitterPane } from 'chathuram/splitter';
+	import { Button } from 'chathuram/form';
+	import { showToast } from 'chathuram/toast';
 	import UrlConstructor from './UrlConstructor.svelte';
 	import RequestConfigTabs from './RequestConfigTabs.svelte';
 	import ResponseViewer from './ResponseViewer.svelte';
-	import { Button } from '$lib/components/ui/formComponents';
-	import { showToast } from '$lib/components/ui/toastComponent';
 	import { Send, Close, Save } from '@icon-park/svg';
 
 	const storeState = $derived($restStore);

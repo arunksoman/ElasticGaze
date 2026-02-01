@@ -3,7 +3,7 @@
 	import { page } from '$app/stores';
 	import { GetDefaultConfig } from '$lib/wailsjs/go/main/App';
 	import { ENV_COLORS, type EnvColorKey } from '$lib/core/constants';
-	import { sidebarExpanded } from '$lib/components/ui/sideBarComponents/sidebar';
+	import { sidebarExpanded } from 'chathuram/sidebar';
 	
 	let envColor = $state<string | null>(null);
 	let currentPath = $state('');

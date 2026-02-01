@@ -1,9 +1,7 @@
 <script lang="ts">
-  import { sidebarExpanded } from '$lib/components/ui/sideBarComponents/sidebar';
-  import SideBarHeader from '$lib/components/ui/sideBarComponents/SideBarHeader.svelte';
-  import SideBarMenuItem from '$lib/components/ui/sideBarComponents/SideBarMenuItem.svelte';
-  import { Popover } from '$lib/components/ui/popoverComponents';
-  import ThemeSwitcher from '$lib/components/ui/formComponents/ThemeSwitcher.svelte';
+  import { sidebarExpanded, SideBarHeader, SideBarMenuItem } from 'chathuram/sidebar';
+  import { Popover } from 'chathuram/popover';
+  import { ThemeSwitcher } from 'chathuram/form';
   
   interface SidebarProps {
     onExpand?: (isExpanded: boolean) => void;

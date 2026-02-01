@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Card from '$lib/components/ui/Card/Card.svelte';
+	import Card from 'chathuram/card';
 	import { Info, CheckOne, Attention, CloseOne } from '@icon-park/svg';
 	import { CLUSTER_STATUS_COLORS } from '$lib/core/constants';
 	import type { models } from '$lib/wailsjs/go/models';

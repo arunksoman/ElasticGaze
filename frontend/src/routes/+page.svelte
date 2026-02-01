@@ -4,7 +4,7 @@
 	import DefaultConnectionMessage from '$lib/components/app/DefaultConnectionMessage.svelte';
 	import DashboardSummaryCards from '$lib/components/app/DashboardSummaryCards.svelte';
 	import DashboardDetailedInfo from '$lib/components/app/DashboardDetailedInfo.svelte';
-	import { Button } from '$lib/components/ui/formComponents';
+	import { Button } from 'chathuram/form';
 	import { GetClusterDashboardData, GetDefaultConfig } from '$lib/wailsjs/go/main/App';
 	import type { models } from '$lib/wailsjs/go/models';
 	

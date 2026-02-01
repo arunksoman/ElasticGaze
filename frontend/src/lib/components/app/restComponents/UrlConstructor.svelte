@@ -3,7 +3,7 @@
 	import { GetDefaultConfig } from '$lib/wailsjs/go/main/App';
 	import { onMount } from 'svelte';
 	import type { models } from '$lib/wailsjs/go/models';
-	import { Select } from '$lib/components/ui/formComponents';
+	import { Select } from 'chathuram/form';
 
 	const storeState = $derived($restStore);
 	const tab = $derived($activeTab);

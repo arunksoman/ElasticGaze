@@ -4,9 +4,8 @@
 	import { GetAllCollectionTrees, CreateCollection, CreateFolder, CreateRequest, UpdateCollection, UpdateFolder, UpdateRequest, DeleteCollection, DeleteFolder, DeleteRequest } from '$lib/wailsjs/go/main/App';
 	import { models } from '$lib/wailsjs/go/models';
 	import { Plus, FolderPlus, FileAddition, Edit, Delete } from '@icon-park/svg';
-	import { showToast } from '$lib/components/ui/toastComponent';
-	import Tree from '$lib/components/ui/treeComponents/Tree.svelte';
-	import type { TreeNodeItem, TreeNodeEvent, TreeRenameEvent, TreeDropEvent } from '$lib/components/ui/treeComponents/types';
+	import { showToast } from 'chathuram/toast';
+	import { Tree, type TreeNodeItem, type TreeNodeEvent, type TreeRenameEvent, type TreeDropEvent } from 'chathuram/tree';
 
 	const storeState = $derived($restStore);
 	let treeNodes = $state<TreeNodeItem[]>([]);

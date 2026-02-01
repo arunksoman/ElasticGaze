@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { restStore, activeTab, type QueryParam } from './restStore';
-	import { CodeEditor } from '$lib/components/ui/codeEditorComponents';
-	import { MarkdownForm } from '$lib/components/ui/markdownEditorComponent';
+	import { CodeEditor } from 'chathuram/code-editor';
+	import { MarkdownForm } from 'chathuram/markdown-editor';
 	import { Plus, Delete } from '@icon-park/svg';
 
 	const tab = $derived($activeTab);

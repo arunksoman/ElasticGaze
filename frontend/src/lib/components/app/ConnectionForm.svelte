@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { ColorRadio, Input, Select, Checkbox, Button, PasswordField } from '$lib/components/ui/formComponents';
-	import { toastStore } from '$lib/components/ui/toastComponent/toastStore';
+	import { ColorRadio, Input, Select, Checkbox, Button, PasswordField } from 'chathuram/form';
+	import { toastStore } from 'chathuram/toast';
 	import { TestTube, Clear, Add } from '@icon-park/svg';
 	import { CreateConfig, UpdateConfig, CheckConnection } from '$lib/wailsjs/go/main/App';
 	import type { models } from '$lib/wailsjs/go/models';

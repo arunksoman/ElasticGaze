@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { DoubleRight } from '@icon-park/svg';
 	import { restStore } from './restStore';
-	import { sidebarExpanded } from '$lib/components/ui/sideBarComponents/sidebar';
+	import { sidebarExpanded } from 'chathuram/sidebar';
 	import { page } from '$app/stores';
 
 	const storeState = $derived($restStore);

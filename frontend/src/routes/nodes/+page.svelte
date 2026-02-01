@@ -1,8 +1,7 @@
 <script lang="ts">
 	import DefaultConnectionMessage from '$lib/components/app/DefaultConnectionMessage.svelte';
-	import DataTableComponent from '$lib/components/ui/dataTableComponent/dataTableComponent.svelte';
-	import type { DataTableColumn } from '$lib/components/ui/dataTableComponent';
-	import Popover from '$lib/components/ui/popoverComponents/Popover.svelte';
+	import { DataTableComponent, type DataTableColumn } from 'chathuram/data-table';
+	import { Popover } from 'chathuram/popover';
 	import { GetDefaultConfig, GetNodes } from '$lib/wailsjs/go/main/App';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';

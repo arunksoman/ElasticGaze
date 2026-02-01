@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { activeResponse } from './restStore';
-	import { CodeEditor } from '$lib/components/ui/codeEditorComponents';
+	import { CodeEditor } from 'chathuram/code-editor';
 
 	const response = $derived($activeResponse);
 	let formattedBody = $state('');

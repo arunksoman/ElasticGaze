@@ -2,11 +2,11 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { HasDefaultConfig, GetDefaultConfig, CheckConnection } from '$lib/wailsjs/go/main/App';
-	import { Button } from '$lib/components/ui/formComponents';
-	import { CloseWifi, Pencil } from '@icon-park/svg';
-	import { Modal } from '$lib/components/ui/modalComponents';
+	import { Button } from 'chathuram/form';
+	import { Modal } from 'chathuram/modal';
+	import { toastStore } from 'chathuram/toast';
+	import { CloseWifi } from '@icon-park/svg';
 	import ConnectionForm from '$lib/components/app/ConnectionForm.svelte';
-	import { toastStore } from '$lib/components/ui/toastComponent/toastStore';
 	
 	interface Props {
 		currentPath?: string;
@@ -161,9 +161,9 @@
 					<Button
 						variant="accent"
 						size="md"
+						icon="Pencil"
 						onclick={handleFixConnection}
 					>
-						{@html Pencil({ theme: 'outline', size: '16', strokeWidth: 3 })}
 						Fix Connection
 					</Button>
 				{:else if noDefaultConfig}

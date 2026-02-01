@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { Modal } from '$lib/components/ui/modalComponents';
-	import { Button } from '$lib/components/ui/formComponents';
+	import { Modal } from 'chathuram/modal';
+	import { Button } from 'chathuram/form';
 	import ConnectionForm from '$lib/components/app/ConnectionForm.svelte';
 	import ConnectionCard from '$lib/components/app/ConnectionCard.svelte';
 	import DefaultConnectionMessage from '$lib/components/app/DefaultConnectionMessage.svelte';
 	import { GetAllConfigs } from '$lib/wailsjs/go/main/App';
-	import { Plus } from '@icon-park/svg';
+	
 	import { page } from '$app/stores';
 
 	let showConnectionModal = $state(false);
@@ -45,8 +45,7 @@
 
 <div class="relative">
 	<div class="absolute top-4 right-4 z-10">
-		<Button variant="primary" onclick={openConnectionModal}>
-			{@html Plus({ theme: 'outline', size: '16', strokeWidth: 3 })}
+		<Button variant="primary" icon="Plus" onclick={openConnectionModal}>
 			Add Connection
 		</Button>
 	</div>
