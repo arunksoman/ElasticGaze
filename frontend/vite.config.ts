@@ -11,5 +11,15 @@ export default defineConfig({
 			project: './project.inlang',
 			outdir: './src/lib/paraglide'
 		})
-	]
+	],
+	optimizeDeps: {
+		include: [
+			'chathuram/splitter',
+			'chathuram/code-editor',
+			'chathuram/markdown-editor',
+			'chathuram/tree',
+			'chathuram/context-menu',
+			'chathuram/data-table',
+		]
+	}
 });
