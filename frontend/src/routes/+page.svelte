@@ -61,7 +61,7 @@
 			<!-- Show Details Button (only on smaller screens) -->
 			{#if !isLargeScreen && dashboardData}
 				<Button 
-					variant={showDetails ? 'outline' : 'accent'}
+					variant={showDetails ? 'outline' : 'primary'}
 					size="sm"
 					onclick={() => showDetails = !showDetails}
 				>

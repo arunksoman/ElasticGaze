@@ -73,8 +73,8 @@
 						class="index-select-all-checkbox" 
 						${selectAll ? 'checked' : ''}
 						style="width: 1.25rem; height: 1.25rem; cursor: pointer; 
-							background-color: ${selectAll ? 'var(--color-accent)' : 'var(--color-base-200)'};
-							border: var(--border) solid ${selectAll ? 'var(--color-accent)' : 'var(--color-base-300)'};
+							background-color: ${selectAll ? 'var(--color-primary)' : 'var(--color-base-200)'};
+					border: 2px solid ${selectAll ? 'var(--color-primary)' : 'var(--color-border)'};
 							border-radius: var(--radius-box);"
 					/>
 				`;
@@ -90,8 +90,8 @@
 						data-index="${row.name}"
 						${isSelected ? 'checked' : ''}
 						style="width: 1.25rem; height: 1.25rem; cursor: pointer; 
-							background-color: ${isSelected ? 'var(--color-accent)' : 'var(--color-base-200)'};
-							border: var(--border) solid ${isSelected ? 'var(--color-accent)' : 'var(--color-base-300)'};
+							background-color: ${isSelected ? 'var(--color-primary)' : 'var(--color-base-200)'};
+						border: 2px solid ${isSelected ? 'var(--color-primary)' : 'var(--color-border)'};
 							border-radius: var(--radius-box);"
 					/>
 				`;
@@ -411,77 +411,85 @@
 	});
 </script>
 
-<div class="max-w-full ml-4 mt-4 mr-4">
-	{#if !defaultConfig}
-		<h1 class="text-2xl font-bold mb-4">Indices</h1>
-		<DefaultConnectionMessage currentPath={$page.url.pathname} />
-	{:else}
-		<div class="flex items-center justify-between mb-4">
-			<h1 class="text-2xl font-bold">Indices</h1>
+<div class="h-screen w-full flex flex-col overflow-hidden" style="background-color: var(--color-base-100);">
+	<div class="shrink-0 px-6 py-4 border-b" style="border-color: var(--color-base-300);">
+		<div class="flex items-center justify-between">
+			<h1 class="text-2xl font-bold" style="color: var(--color-primary);">Indices</h1>
 		</div>
+	</div>
 
-		<!-- Tabs -->
-		<div class="tabs-container mb-4" style="border-bottom: var(--border) solid var(--color-base-300);">
-			<div class="flex gap-2">
-				<button
-					class="tab-button"
-					class:active={activeTab === 'indices'}
-					onclick={() => activeTab = 'indices'}
-					style="padding: 0.75rem 1.5rem; background: {activeTab === 'indices' ? 'var(--color-base-100)' : 'transparent'};
-						color: {activeTab === 'indices' ? 'var(--color-primary)' : 'var(--color-base-content)'};
-						border: none; border-bottom: 2px solid {activeTab === 'indices' ? 'var(--color-primary)' : 'transparent'};
-						cursor: pointer; font-weight: 500; transition: all 0.2s;"
-				>
-					Indices
-				</button>
-				<button
-					class="tab-button"
-					class:active={activeTab === 'templates'}
-					onclick={() => activeTab = 'templates'}
-					style="padding: 0.75rem 1.5rem; background: {activeTab === 'templates' ? 'var(--color-base-100)' : 'transparent'};
-						color: {activeTab === 'templates' ? 'var(--color-primary)' : 'var(--color-base-content)'};
-						border: none; border-bottom: 2px solid {activeTab === 'templates' ? 'var(--color-primary)' : 'transparent'};
-						cursor: pointer; font-weight: 500; transition: all 0.2s;"
-				>
-					Index Templates
-				</button>
-			</div>
-		</div>
-
-		<!-- Indices Tab Content -->
-		{#if activeTab === 'indices'}
-			<div class="mb-4">
-				<Button icon="Plus" onclick={handleCreateClick}>
-					Create Index
-				</Button>
+	<div class="flex-1 px-6 py-4 min-h-0 overflow-hidden flex flex-col">
+		{#if !defaultConfig && !loading}
+			<DefaultConnectionMessage currentPath={$page.url.pathname} />
+		{:else if defaultConfig}
+			<!-- Tabs -->
+			<div class="tabs-container mb-4 shrink-0" style="border-bottom: var(--border) solid var(--color-base-300);">
+				<div class="flex gap-2">
+					<button
+						class="tab-button"
+						class:active={activeTab === 'indices'}
+						onclick={() => activeTab = 'indices'}
+						style="padding: 0.75rem 1.5rem; background: {activeTab === 'indices' ? 'var(--color-base-100)' : 'transparent'};
+							color: {activeTab === 'indices' ? 'var(--color-primary)' : 'var(--color-base-content)'};
+							border: none; border-bottom: 2px solid {activeTab === 'indices' ? 'var(--color-primary)' : 'transparent'};
+							cursor: pointer; font-weight: 500; transition: all 0.2s;"
+					>
+						Indices
+					</button>
+					<button
+						class="tab-button"
+						class:active={activeTab === 'templates'}
+						onclick={() => activeTab = 'templates'}
+						style="padding: 0.75rem 1.5rem; background: {activeTab === 'templates' ? 'var(--color-base-100)' : 'transparent'};
+							color: {activeTab === 'templates' ? 'var(--color-primary)' : 'var(--color-base-content)'};
+							border: none; border-bottom: 2px solid {activeTab === 'templates' ? 'var(--color-primary)' : 'transparent'};
+							cursor: pointer; font-weight: 500; transition: all 0.2s;"
+					>
+						Index Templates
+					</button>
+				</div>
 			</div>
 
-			{#if loading}
-				<div class="text-center py-8" style="color: var(--color-base-content);">
-					Loading indices...
+			<!-- Indices Tab Content -->
+			{#if activeTab === 'indices'}
+				<div class="mb-4 shrink-0">
+					<Button icon="Plus" onclick={handleCreateClick}>
+						Create Index
+					</Button>
 				</div>
-			{:else if indices.length === 0}
-				<div class="text-center py-8" style="color: var(--color-base-content);">
-					No indices found
+
+				{#if loading}
+					<div class="flex items-center justify-center h-64">
+						<div class="text-lg" style="color: var(--color-base-content);">Loading indices...</div>
+					</div>
+				{:else if indices.length === 0}
+					<div
+						class="p-4 rounded border"
+						style="background-color: var(--color-base-200); border-color: var(--color-base-300); color: var(--color-base-content);"
+					>
+						<p>No indices found</p>
+					</div>
+				{:else}
+					{#key tableKey}
+						<div class="rounded-lg border flex-1 min-h-0" style="border-color: var(--color-base-300);">
+							<DataTableComponent 
+								data={indices} 
+								{columns}
+								pagination={{ pageSize: 25, showPageSizeSelector: true, showPaginationInfo: true, pageSizeOptions: [10, 25, 50, 100] }}
+							/>
+						</div>
+					{/key}
+				{/if}
+			{/if}
+
+			<!-- Templates Tab Content -->
+			{#if activeTab === 'templates'}
+				<div class="flex items-center justify-center h-64">
+					<div class="text-lg" style="color: var(--color-base-content);">Index Templates - Coming Soon</div>
 				</div>
-			{:else}
-				{#key tableKey}
-					<DataTableComponent 
-						data={indices} 
-						{columns}
-						pagination={{ pageSize: 25, showPageSizeSelector: true, showPaginationInfo: true }}
-					/>
-				{/key}
 			{/if}
 		{/if}
-
-		<!-- Templates Tab Content -->
-		{#if activeTab === 'templates'}
-			<div class="text-center py-8" style="color: var(--color-base-content);">
-				Index Templates - Coming Soon
-			</div>
-		{/if}
-	{/if}
+	</div>
 </div>
 
 <!-- Create Index Modal -->

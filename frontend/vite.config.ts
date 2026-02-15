@@ -14,12 +14,13 @@ export default defineConfig({
 	],
 	optimizeDeps: {
 		include: [
-			'chathuram/splitter',
-			'chathuram/code-editor',
-			'chathuram/markdown-editor',
-			'chathuram/tree',
-			'chathuram/context-menu',
-			'chathuram/data-table',
+			// 'chathuram/splitter',
+			// 'chathuram/code-editor',
+			// 'chathuram/markdown-editor',
+			// 'chathuram/tree',
+			// 'chathuram/context-menu',
+			// 'chathuram/data-table',
+			'chathuram/*',
 		]
 	}
 });
